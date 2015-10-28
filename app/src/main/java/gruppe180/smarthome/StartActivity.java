@@ -8,13 +8,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-public class StartActivity extends AppCompatActivity implements View.OnClickListener{
+public class StartActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        ((Button)findViewById(R.id.button)).setOnClickListener(this);
+        if (savedInstanceState == null){
+            FragmentLogin fragmentLogin = new FragmentLogin();
+            getFragmentManager().beginTransaction().add(R.id.Fragment, new FragmentLogin()).commit();
+        }
     }
 
 
@@ -41,9 +44,9 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
+    /*@Override
     public void onClick(View v) {
         Intent intent = new Intent(this, OptionActivity.class);
         this.startActivity(intent);
-    }
+    }*/
 }
