@@ -1,24 +1,27 @@
 package gruppe180.smarthome;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.media.audiofx.BassBoost;
+import android.media.audiofx.EnvironmentalReverb;
 import android.net.Uri;
+import android.nfc.NfcAdapter;
+import android.nfc.NfcManager;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FragmentLogin.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FragmentLogin#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class FragmentLogin extends Fragment {
+
+public class FragmentLogin extends Fragment implements View.OnClickListener {
     /*// TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -61,16 +64,52 @@ public class FragmentLogin extends Fragment {
         }
     }
 */
+    private Button loginbutton;
+    private Button registerbutton;
+    private EditText passwordedittext;
+    private TextView smarthometextview;
+    private TextView placenfccardtextview;
+    private TextView activatenfchere;
+    private NfcAdapter nfcAdapter;
+    private NfcManager nfcManager;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         Log.d("FragmentLogin","Fragment onCreate()");
         View login = inflater.inflate(R.layout.fragment_login,container,false);
 
+        loginbutton = (Button) login.findViewById(R.id.loginButton);
+        registerbutton = (Button) login.findViewById(R.id.registerButton);
+        passwordedittext = (EditText) login.findViewById(R.id.passwordEdittext);
+        smarthometextview = (TextView) login.findViewById(R.id.smartHomeTextView);
+        placenfccardtextview = (TextView) login.findViewById(R.id.placeNfcCardTextView);
+        activatenfchere = (TextView) login.findViewById(R.id.activateNfcHereTextView);
 
 
+        if (nfcAdapter.getDefaultAdapter(getActivity()).isEnabled()){
+            //Toast.makeText(getActivity(),"NFC available",Toast.LENGTH_LONG).show();
+        }
+        else {
+            //Toast.makeText(getActivity(),"NFC not available",Toast.LENGTH_LONG).show();
+            activatenfchere.setVisibility(View.VISIBLE);
+            Intent intent = new Intent();
+            intent.setAction(Settings.ACTION_NFC_SETTINGS);
+            startActivity(intent);
+        }
 
         return login;
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.activateNfcHereTextView:
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_NFC_SETTINGS);
+                startActivity(intent);
+                break;
+        }
+    }
+
 
    /* // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

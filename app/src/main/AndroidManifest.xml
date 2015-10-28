@@ -3,6 +3,13 @@
     package="gruppe180.smarthome" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="false">
+    </uses-feature>
 
     <application
         android:allowBackup="true"

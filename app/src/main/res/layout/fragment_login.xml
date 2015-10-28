@@ -24,9 +24,21 @@
         android:text="Place NFC Card"
         android:id="@+id/placeNfcCardTextView"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.5"
         android:textSize="@dimen/abc_action_button_min_width_overflow_material"
         android:textColor="@android:color/background_light" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Activate NFC here"
+        android:id="@+id/activateNfcHereTextView"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.5"
+        android:visibility="invisible"
+        android:textSize="20dp"
+        android:textColor="#ff0054"
+        android:onClick="setContentView" />
 
     <EditText
         android:layout_width="300dp"
