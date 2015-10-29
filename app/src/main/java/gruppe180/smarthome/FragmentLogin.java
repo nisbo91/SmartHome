@@ -1,10 +1,14 @@
 package gruppe180.smarthome;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcManager;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -14,8 +18,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class FragmentLogin extends Fragment implements View.OnClickListener {
+public class FragmentLogin extends Fragment implements View.OnClickListener, Preference.OnPreferenceChangeListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -64,12 +69,13 @@ public class FragmentLogin extends Fragment implements View.OnClickListener {
     private TextView placenfccardtextview;
     private TextView activatenfchere;
     private NfcAdapter nfcAdapter;
-    private NfcManager nfcManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-        Log.d("FragmentLogin","Fragment onCreate()");
+        Log.d("FragmentLogin", "Fragment onCreate()");
         View login = inflater.inflate(R.layout.fragment_login,container,false);
+
+        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(NfcAdapter.ACTION_ADAPTER_STATE_CHANGED));
 
         loginbutton = (Button) login.findViewById(R.id.loginButton);
         registerbutton = (Button) login.findViewById(R.id.registerButton);
@@ -80,16 +86,13 @@ public class FragmentLogin extends Fragment implements View.OnClickListener {
         activatenfchere.setOnClickListener(this);
         loginbutton.setOnClickListener(this);
 
-
         if (nfcAdapter.getDefaultAdapter(getActivity()).isEnabled()){
             //Toast.makeText(getActivity(),"NFC available",Toast.LENGTH_LONG).show();
+            updateNFCScreen(true);
         }
         else {
             //Toast.makeText(getActivity(),"NFC not available",Toast.LENGTH_LONG).show();
-            activatenfchere.setVisibility(View.VISIBLE);
-            /*Intent intent = new Intent();
-            intent.setAction(Settings.ACTION_NFC_SETTINGS);
-            startActivity(intent);*/
+            updateNFCScreen(false);
         }
 
         return login;
@@ -106,8 +109,27 @@ public class FragmentLogin extends Fragment implements View.OnClickListener {
             case R.id.loginButton:
                 intent = new Intent(getActivity(), OptionActivity.class);
                 this.startActivity(intent);
+                break;
         }
     }
+    public void updateNFCScreen (boolean b){
+        if (b){
+            activatenfchere.setVisibility(View.INVISIBLE);
+        }
+        if (!b){
+            activatenfchere.setVisibility(View.VISIBLE);
+        }
+        else{
+
+        }
+    }
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            updateNFCScreen(nfcAdapter.getDefaultAdapter(getActivity()).isEnabled());
+        }
+    };
+
 
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -121,6 +143,13 @@ public class FragmentLogin extends Fragment implements View.OnClickListener {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
+        Log.d("onPreferenceChange", String.valueOf(preference));
+        Log.d("onPreferenceChange", String.valueOf(newValue));
+        return false;
     }
 
     /**
