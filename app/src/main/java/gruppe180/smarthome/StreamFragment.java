@@ -1,11 +1,13 @@
 package gruppe180.smarthome;
 
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,14 +63,22 @@ public class StreamFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stream, container, false);
+        final String videoUrl = "http://87.72.39.104:8080/stream";
 
-
-
-        // Inflate the layout for this fragment
+        final WebView webView = (WebView)view.findViewById(R.id.streamWebView);
+        int default_zoom_level=97;
+        webView.setInitialScale(default_zoom_level);
+        webView.post(new Runnable(){
+            @Override
+            public void run() {
+                int width = webView.getWidth();
+                int height = webView.getHeight();
+                webView.loadUrl(videoUrl + "?width="+width+"&height="+height);
+            }
+        });
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);

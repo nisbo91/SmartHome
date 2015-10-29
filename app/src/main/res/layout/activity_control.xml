@@ -19,7 +19,7 @@
         android:layout_height="match_parent"
         android:id="@+id/bottomFrame"
         android:layout_below="@+id/topFrame"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="232dp"></FrameLayout>
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="41dp"></FrameLayout>
 
 </RelativeLayout>
