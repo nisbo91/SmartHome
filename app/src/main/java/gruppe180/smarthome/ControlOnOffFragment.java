@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 
 /**
@@ -25,6 +27,10 @@ public class ControlOnOffFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private String first = "Første";
+    private String second = "Anden";
+    private String third = "Tredje";
 
     private OnFragmentInteractionListener mListener;
 
@@ -57,15 +63,22 @@ public class ControlOnOffFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_control_on_off, container, false);
 
+        ListView listView = (ListView) view.findViewById(R.id.controlListView);
+        String[] values = new String[] { first, second, third };
 
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.ControlPins, android.R.layout.simple_list_item_1);
 
-
+        listView.setAdapter(adapter);
 
         // Inflate the layout for this fragment
         return view;

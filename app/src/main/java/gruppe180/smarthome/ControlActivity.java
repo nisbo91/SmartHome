@@ -11,7 +11,12 @@ public class ControlActivity extends AppCompatActivity {
         setContentView(R.layout.activity_control);
 
         getSupportFragmentManager().beginTransaction().add(R.id.topFrame, new StreamFragment(), "top").commit();
-        //getSupportFragmentManager().beginTransaction().add(R.id.bottomFrame, new ControlOnOffFragment(), "bot").commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.bottomFrame, new ControlDirectionFragment(), "bot").commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.bottomFrame, new ControlOnOffFragment(), "bot").commit();
+        //getSupportFragmentManager().beginTransaction().add(R.id.bottomFrame, new ControlDirectionFragment(), "bot").commit();
     }
+
+    public void setNewBottomFragment(){
+        // TODO: 29-10-2015 glide mellem de to forskellige fragmenter
+    }
+
 }

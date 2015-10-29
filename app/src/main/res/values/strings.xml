@@ -15,4 +15,17 @@
     <string name="downText">up</string>
     <string name="leftText">up</string>
     <string name="tagText">up</string>
+
+    <string-array name="ControlPins">
+        <item>Alpha</item>
+        <item>Beta</item>
+        <item>Gamma</item>
+        <item>Delta</item>
+        <item>Epsilon</item>
+        <item>Zeta</item>
+        <item>Eta</item>
+        <item>Theta</item>
+    </string-array>
+
+
 </resources>
