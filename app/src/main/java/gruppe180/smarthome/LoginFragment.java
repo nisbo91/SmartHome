@@ -1,13 +1,16 @@
 package gruppe180.smarthome;
 
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
+import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
+import android.nfc.NfcEvent;
+import android.nfc.Tag;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -18,7 +21,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class LoginFragment extends Fragment implements View.OnClickListener, Preference.OnPreferenceChangeListener {
+
+public class LoginFragment extends Fragment implements View.OnClickListener, NfcAdapter.CreateNdefMessageCallback{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -67,6 +71,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Pre
     private TextView placenfccardtextview;
     private TextView activatenfchere;
     private NfcAdapter nfcAdapter;
+    private PendingIntent pendingIntent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -127,6 +132,23 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Pre
             updateNFCScreen(nfcAdapter.getDefaultAdapter(getActivity()).isEnabled());
         }
     };
+    /*@Override
+    public void onPause(){
+        super.onPause();
+        if (nfcAdapter != null) {
+            nfcAdapter.disableForegroundDispatch(getActivity());
+        }
+    }*/
+    /*@Override
+    public void onResume(){
+        super.onResume();
+        nfcAdapter.enableForegroundDispatch(this.getActivity(), pendingIntent, null, null);
+    }*/
+
+    private void getTagInfo(Intent intent) {
+        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+        System.out.println(tag);
+    }
 
 
 
@@ -144,11 +166,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Pre
     }
 
     @Override
-    public boolean onPreferenceChange(Preference preference, Object newValue) {
-        Log.d("onPreferenceChange", String.valueOf(preference));
-        Log.d("onPreferenceChange", String.valueOf(newValue));
-        return false;
+    public NdefMessage createNdefMessage(NfcEvent event) {
+        return null;
     }
+
 
     /**
      * This interface must be implemented by activities that contain this

@@ -1,5 +1,6 @@
 package gruppe180.smarthome;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -40,9 +41,7 @@ public class StartActivity extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
-    /*@Override
-    public void onClick(View v) {
-        Intent intent = new Intent(this, OptionActivity.class);
-        this.startActivity(intent);
-    }*/
+    public void onNewIntent (Intent intent){
+        setIntent(intent);
+    }
 }
