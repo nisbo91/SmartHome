@@ -14,7 +14,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:id="@+id/Fragment"
+        android:id="@+id/startFragment"
         android:layout_height="fill_parent">
     </FrameLayout>
 </LinearLayout>

@@ -33,6 +33,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="gruppe180.smarthome.StartActivity" />
         </activity>
+        <activity
+            android:name=".ControlActivity"
+            android:label="@string/title_activity_control"
+            android:parentActivityName=".OptionActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="gruppe180.smarthome.OptionActivity" />
+        </activity>
     </application>
 
 </manifest>

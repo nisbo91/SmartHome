@@ -15,8 +15,7 @@ public class StartActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         if (savedInstanceState == null){
-            FragmentLogin fragmentLogin = new FragmentLogin();
-            getFragmentManager().beginTransaction().add(R.id.Fragment, new FragmentLogin()).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.startFragment, new FragmentLogin()).commit();
         }
     }
 
