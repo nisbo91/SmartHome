@@ -1,0 +1,66 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="gruppe180.smarthome.ControlDirectionFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/controlUpButton"
+            android:layout_gravity="center_horizontal|top"
+            android:contentDescription="@string/upText"
+            android:src="@drawable/controlarrow"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitCenter" />
+
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/controlRightButton"
+            android:layout_gravity="center_horizontal|top"
+            android:contentDescription="@string/rightText"
+            android:src="@drawable/controlarrow"
+            android:layout_below="@+id/controlUpButton"
+            android:layout_toEndOf="@+id/controlUpButton"
+            android:scaleType="centerCrop" />
+
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/controlDownButton"
+            android:layout_gravity="center_horizontal|top"
+            android:contentDescription="@string/downText"
+            android:src="@drawable/controlarrow"
+            android:layout_below="@+id/controlRightButton"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerCrop" />
+
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/controlLeftButton"
+            android:layout_gravity="center_horizontal|top"
+            android:contentDescription="@string/leftText"
+            android:src="@drawable/controlarrow"
+            android:layout_below="@+id/controlUpButton"
+            android:layout_toStartOf="@+id/controlDownButton"
+            android:scaleType="centerCrop" />
+
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/controlTagButton"
+            android:layout_gravity="center_horizontal|top"
+            android:contentDescription="@string/tagText"
+            android:src="@drawable/controlredbutton"
+            android:layout_below="@+id/controlUpButton"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerCrop" />
+    </RelativeLayout>
+</FrameLayout>
