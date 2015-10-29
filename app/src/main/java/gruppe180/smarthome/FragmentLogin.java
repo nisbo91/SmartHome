@@ -77,6 +77,8 @@ public class FragmentLogin extends Fragment implements View.OnClickListener {
         smarthometextview = (TextView) login.findViewById(R.id.smartHomeTextView);
         placenfccardtextview = (TextView) login.findViewById(R.id.placeNfcCardTextView);
         activatenfchere = (TextView) login.findViewById(R.id.activateNfcHereTextView);
+        activatenfchere.setOnClickListener(this);
+        loginbutton.setOnClickListener(this);
 
 
         if (nfcAdapter.getDefaultAdapter(getActivity()).isEnabled()){
@@ -85,9 +87,9 @@ public class FragmentLogin extends Fragment implements View.OnClickListener {
         else {
             //Toast.makeText(getActivity(),"NFC not available",Toast.LENGTH_LONG).show();
             activatenfchere.setVisibility(View.VISIBLE);
-            Intent intent = new Intent();
+            /*Intent intent = new Intent();
             intent.setAction(Settings.ACTION_NFC_SETTINGS);
-            startActivity(intent);
+            startActivity(intent);*/
         }
 
         return login;
@@ -95,12 +97,15 @@ public class FragmentLogin extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        Intent intent = new Intent();
         switch (v.getId()){
             case R.id.activateNfcHereTextView:
-                Intent intent = new Intent();
                 intent.setAction(Settings.ACTION_NFC_SETTINGS);
                 startActivity(intent);
                 break;
+            case R.id.loginButton:
+                intent = new Intent(getActivity(), OptionActivity.class);
+                this.startActivity(intent);
         }
     }
 

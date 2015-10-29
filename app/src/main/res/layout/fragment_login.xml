@@ -37,8 +37,7 @@
         android:layout_weight="0.5"
         android:visibility="invisible"
         android:textSize="20dp"
-        android:textColor="#ff0054"
-        android:onClick="setContentView" />
+        android:textColor="#ff0054" />
 
     <EditText
         android:layout_width="300dp"
