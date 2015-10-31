@@ -1,41 +1,48 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="gruppe180.smarthome.OptionActivity">
+    tools:context="gruppe180.smarthome.OptionActivity"
+    android:background="@drawable/smarthome">
+    android:id="@+id/optionsLayout">
 
     <Button
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="@string/listCardsButton"
         android:id="@+id/listCardsButton"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="116dp" />
+        android:layout_above="@+id/controlButton"
+        android:layout_alignEnd="@+id/controlButton"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="@string/controlButtonText"
         android:id="@+id/controlButton"
-        android:layout_below="@+id/listCardsButton"
-        android:layout_alignStart="@+id/listCardsButton" />
+        android:layout_above="@+id/environmentalButton"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="@string/environMentalButtonText"
         android:id="@+id/environmentalButton"
-        android:layout_below="@+id/controlButton"
-        android:layout_centerHorizontal="true" />
+        android:layout_above="@+id/logoutButton"
+        android:layout_alignEnd="@+id/logoutButton"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="@string/logoutButtonText"
         android:id="@+id/logoutButton"
-        android:layout_below="@+id/environmentalButton"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

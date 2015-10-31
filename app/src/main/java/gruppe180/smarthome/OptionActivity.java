@@ -18,6 +18,7 @@ public class OptionActivity extends AppCompatActivity implements View.OnClickLis
         (findViewById(R.id.controlButton)).setOnClickListener(this);
         (findViewById(R.id.environmentalButton)).setOnClickListener(this);
         (findViewById(R.id.logoutButton)).setOnClickListener(this);
+
     }
 
     @Override
