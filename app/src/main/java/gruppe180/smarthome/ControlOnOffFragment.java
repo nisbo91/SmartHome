@@ -10,11 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,9 +29,8 @@ public class ControlOnOffFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private String first = "Første";
-    private String second = "Anden";
-    private String third = "Tredje";
+    private String[] data = new String[] {"Alpha","Beta","Gamma","Delta","Epsilon","Zeta","Eta","Theta"};
+    ListView listView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -69,35 +63,36 @@ public class ControlOnOffFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
-    private void setRemoteSwitch(Integer remoteSwitch){
+    private String setRemoteControl(Integer i){
 
+
+        return "";
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_control_on_off, container, false);
-        ListView listView = (ListView) view.findViewById(R.id.controlListView);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.ControlPins, android.R.layout.simple_list_item_1);
+        listView = (ListView) view.findViewById(R.id.controlListView);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.control_layout_single_row, R.id.mControlSwitch, this.data);
         listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println(position);
-            }
-        });
+       listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+           @Override
+           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               System.out.println(position);
+               // TODO: 31-10-2015 get status checked/unchecked at the position
 
+               // TODO: 31-10-2015 update remote server 
 
+               // TODO: 31-10-2015 update list with info from server
+               
 
-/*        String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-                "Linux", "OS/2" };
-        ArrayAdapter<String> ladapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, values);
-        listView.setAdapter(ladapter);*/
+           }
+       });
 
-        // Inflate the layout for this fragment
         return view;
     }
 
