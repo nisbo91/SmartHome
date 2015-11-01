@@ -16,7 +16,7 @@ public class ControlActivity extends AppCompatActivity {
     }
 
     public void setNewBottomFragment(){
-        // TODO: 29-10-2015 glide mellem de to forskellige fragmenter
+        // TODO: 29-10-2015 slide mellem de to forskellige fragmenter
 
 
     }

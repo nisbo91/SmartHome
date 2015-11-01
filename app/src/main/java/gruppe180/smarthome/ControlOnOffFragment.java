@@ -25,10 +25,18 @@ public class ControlOnOffFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    final String prefix = "http://";            // fast
+    final String serverURL = "87.72.39.104";    // fra database ved registrering, ændres senere
+    private final String mPage = "control.php?";
+    private final String mStatus = "st=";
+    private final String mDivider = "&";
+    private final String mControl = "cn=";
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+    // names of the switches on the remote server
     private String[] data = new String[] {"Alpha","Beta","Gamma","Delta","Epsilon","Zeta","Eta","Theta"};
     ListView listView;
 
@@ -66,10 +74,17 @@ public class ControlOnOffFragment extends Fragment {
 
     }
 
-    private String setRemoteControl(Integer i){
+    private String setRemoteControl(Integer i, boolean s){
+        // TODO: 01-11-2015 skal nok køre som async task
 
+        //http://87.72.39.104/control.php?st=false&cn=0
 
         return "";
+    }
+
+    private void updateRemoteControlView(String settings){
+
+
     }
 
     @Override
@@ -84,12 +99,11 @@ public class ControlOnOffFragment extends Fragment {
            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                System.out.println(position);
                // TODO: 31-10-2015 get status checked/unchecked at the position
-
-               // TODO: 31-10-2015 update remote server 
-
+               Boolean status = false; // dummy
+               // TODO: 31-10-2015 update remote server
+               String response = setRemoteControl(position, status);
                // TODO: 31-10-2015 update list with info from server
-               
-
+               updateRemoteControlView(response);
            }
        });
 

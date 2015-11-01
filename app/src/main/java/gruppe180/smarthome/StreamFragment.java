@@ -1,7 +1,6 @@
 package gruppe180.smarthome;
 
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -22,6 +21,10 @@ public class StreamFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    final String prefix = "http://";            // fast
+    final String serverURL = "87.72.39.104";    // fra database ved registrering, ændres fra final senere
+    final String stream = ":8080/stream";       // fast
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -63,17 +66,19 @@ public class StreamFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stream, container, false);
-        final String videoUrl = "http://87.72.39.104:8080/stream";
+
+        //final String videoUrl = "http://87.72.39.104:8080/stream";
 
         final WebView webView = (WebView)view.findViewById(R.id.streamWebView);
-        int default_zoom_level=97;
-        webView.setInitialScale(default_zoom_level);
+        //int default_zoom_level=97;
+        //webView.setInitialScale(default_zoom_level);
         webView.post(new Runnable(){
             @Override
             public void run() {
-                int width = webView.getWidth();
-                int height = webView.getHeight();
-                webView.loadUrl(videoUrl + "?width="+width+"&height="+height);
+                //int width = webView.getWidth();
+                //int height = webView.getHeight();
+                //webView.loadUrl(videoUrl + "?width="+width+"&height="+height);
+                webView.loadUrl(prefix + serverURL + stream);
             }
         });
         return view;
