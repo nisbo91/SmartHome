@@ -40,21 +40,36 @@ public class StartActivity extends AppCompatActivity{
         setContentView(R.layout.activity_start);
         //grab a hold of the nfc sensor
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-
+        pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
 
         if (savedInstanceState == null){
             getSupportFragmentManager().beginTransaction().add(R.id.startFragment, new LoginFragment()).commit();
         }
     }
 
-    public void onNewIntent (Intent intent){
-        getTagInfo(intent);
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        //Toast.makeText(this, "hurra nfc! "+intent,Toast.LENGTH_LONG).show();
+
+        LoginFragment.synligInstans.nfcTagSkannet(intent);
     }
-    /*@Override
-    public void onResume(){
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (nfcAdapter != null) {
+            nfcAdapter.disableForegroundDispatch(this);
+        }
+    }
+    @Override
+    public void onResume() {
         super.onResume();
-        getTagInfo(getIntent());
-    }*/
+        if (nfcAdapter != null) {
+            nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
+        }
+    }
+
+    /*
     private void getTagInfo(Intent intent) {
         tag = intent.getByteArrayExtra(NfcAdapter.EXTRA_ID);
         Bundle bundle = new Bundle();
@@ -65,7 +80,7 @@ public class StartActivity extends AppCompatActivity{
         Toast.makeText(this,tag.toString(),Toast.LENGTH_LONG).show();
         Log.d("NFC", tag.toString());
     }
-
+*/
 
 
    /* @Override

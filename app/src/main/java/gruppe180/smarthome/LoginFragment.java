@@ -20,10 +20,142 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
-public class LoginFragment extends Fragment implements View.OnClickListener, NfcAdapter.ReaderCallback {
-    /*// TODO: Rename parameter arguments, choose names that match
+public class LoginFragment extends Fragment implements View.OnClickListener {
+
+
+    private Button loginbutton;
+    private Button registerbutton;
+    private EditText passwordedittext;
+    private TextView smarthometextview;
+    private TextView placenfccardtextview;
+    private TextView activatenfchere;
+    private NfcAdapter nfcAdapter;
+    private PendingIntent pendingIntent;
+    private String nfc;
+    private byte[] nfcTag;
+    static LoginFragment synligInstans;
+    private void nfcTagHex;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        synligInstans = this;
+
+        Log.d("LoginFragment", "Fragment onCreate()");
+        View login = inflater.inflate(R.layout.fragment_login, container, false);
+
+        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(NfcAdapter.ACTION_ADAPTER_STATE_CHANGED));
+
+        loginbutton = (Button) login.findViewById(R.id.loginButton);
+        registerbutton = (Button) login.findViewById(R.id.registerButton);
+        passwordedittext = (EditText) login.findViewById(R.id.passwordEdittext);
+        smarthometextview = (TextView) login.findViewById(R.id.smartHomeTextView);
+        placenfccardtextview = (TextView) login.findViewById(R.id.placeNfcCardTextView);
+        activatenfchere = (TextView) login.findViewById(R.id.activateNfcHereTextView);
+        activatenfchere.setOnClickListener(this);
+        loginbutton.setOnClickListener(this);
+
+        if (nfcAdapter.getDefaultAdapter(getActivity()).isEnabled()) {
+            //Toast.makeText(getActivity(),"NFC available",Toast.LENGTH_LONG).show();
+            updateNFCScreen(true);
+        } else {
+            //Toast.makeText(getActivity(),"NFC not available",Toast.LENGTH_LONG).show();
+            updateNFCScreen(false);
+        }
+
+        return login;
+    }
+
+    @Override
+    public void onDestroyView() {
+        synligInstans = null;
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent();
+        switch (v.getId()) {
+            case R.id.activateNfcHereTextView:
+                intent.setAction(Settings.ACTION_NFC_SETTINGS);
+                startActivity(intent);
+                break;
+            case R.id.loginButton:
+                intent = new Intent(getActivity(), OptionActivity.class);
+                this.startActivity(intent);
+                break;
+        }
+    }
+
+    public void updateNFCScreen(boolean b) {
+        if (b) {
+            activatenfchere.setVisibility(View.INVISIBLE);
+        }
+        if (!b) {
+            activatenfchere.setVisibility(View.VISIBLE);
+        } else {
+
+        }
+    }
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            updateNFCScreen(nfcAdapter.getDefaultAdapter(getActivity()).isEnabled());
+        }
+    };
+
+
+    /*@Override
+    public void onPause(){
+        super.onPause();
+        if (nfcAdapter != null) {
+            nfcAdapter.disableForegroundDispatch(getActivity());
+        }
+    }*/
+    /*@Override
+    public void onResume(){
+        super.onResume();
+        nfcTag = getActivity().getIntent().toString();
+        System.out.println(nfcTag);
+    }*/
+
+    public void nfcTagSkannet(Intent intent) {
+        nfcTag = intent.getByteArrayExtra(NfcAdapter.EXTRA_ID);
+        //nfcTagHex = new Conversion().byteTo
+        Toast.makeText(getActivity(), "hurra nfc2! " + nfcTag, Toast.LENGTH_LONG).show();
+    }
+
+    /*private void getTagInfo(Intent intent) {
+        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+        System.out.println(tag);
+    }*/
+}
+
+
+/*
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        public void onFragmentInteraction(Uri uri);
+    }
+
+*/
+/*// TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -63,129 +195,3 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Nfc
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }*/
-
-    private Button loginbutton;
-    private Button registerbutton;
-    private EditText passwordedittext;
-    private TextView smarthometextview;
-    private TextView placenfccardtextview;
-    private TextView activatenfchere;
-    private NfcAdapter nfcAdapter;
-    private PendingIntent pendingIntent;
-    private String nfc;
-    private String nfcTag;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        try{
-            nfc = getArguments().getByteArray("NFC").toString();
-        }
-        catch (Exception e){
-            System.out.println("no arguments : " +e);
-        }
-
-        Log.d("LoginFragment", "Fragment onCreate()");
-        View login = inflater.inflate(R.layout.fragment_login, container, false);
-
-        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(NfcAdapter.ACTION_ADAPTER_STATE_CHANGED));
-
-        loginbutton = (Button) login.findViewById(R.id.loginButton);
-        registerbutton = (Button) login.findViewById(R.id.registerButton);
-        passwordedittext = (EditText) login.findViewById(R.id.passwordEdittext);
-        smarthometextview = (TextView) login.findViewById(R.id.smartHomeTextView);
-        placenfccardtextview = (TextView) login.findViewById(R.id.placeNfcCardTextView);
-        activatenfchere = (TextView) login.findViewById(R.id.activateNfcHereTextView);
-        activatenfchere.setOnClickListener(this);
-        loginbutton.setOnClickListener(this);
-
-        if (nfcAdapter.getDefaultAdapter(getActivity()).isEnabled()) {
-            //Toast.makeText(getActivity(),"NFC available",Toast.LENGTH_LONG).show();
-            updateNFCScreen(true);
-        } else {
-            //Toast.makeText(getActivity(),"NFC not available",Toast.LENGTH_LONG).show();
-            updateNFCScreen(false);
-        }
-
-        return login;
-    }
-
-    @Override
-    public void onClick(View v) {
-        Intent intent = new Intent();
-        switch (v.getId()) {
-            case R.id.activateNfcHereTextView:
-                intent.setAction(Settings.ACTION_NFC_SETTINGS);
-                startActivity(intent);
-                break;
-            case R.id.loginButton:
-                intent = new Intent(getActivity(), OptionActivity.class);
-                this.startActivity(intent);
-                break;
-        }
-    }
-
-    public void updateNFCScreen(boolean b) {
-        if (b) {
-            activatenfchere.setVisibility(View.INVISIBLE);
-        }
-        if (!b) {
-            activatenfchere.setVisibility(View.VISIBLE);
-        } else {
-
-        }
-    }
-
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            updateNFCScreen(nfcAdapter.getDefaultAdapter(getActivity()).isEnabled());
-        }
-    };
-    public void getIntent (){
-        nfcTag = getActivity().getIntent().toString();
-    }
-
-    @Override
-    public void onTagDiscovered(Tag tag) {
-        getIntent();
-    }
-    /*@Override
-    public void onPause(){
-        super.onPause();
-        if (nfcAdapter != null) {
-            nfcAdapter.disableForegroundDispatch(getActivity());
-        }
-    }
-    @Override
-    public void onResume(){
-        super.onResume();
-        nfcAdapter.enableForegroundDispatch(this.getActivity(), pendingIntent, null, null);
-    }*/
-
-    /*private void getTagInfo(Intent intent) {
-        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-        System.out.println(tag);
-    }*/
-}
-
-
-/*
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
-    }
-
-*/
