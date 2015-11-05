@@ -15,4 +15,5 @@
         android:clickable="false"
         android:focusable="false"
         android:gravity="fill_horizontal|center_vertical" />
+
 </LinearLayout>
