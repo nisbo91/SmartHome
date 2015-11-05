@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.internal.widget.AdapterViewCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -94,6 +102,8 @@ public class ControlOnOffFragment extends Fragment {
     private String setRemoteSwitch(Integer position, boolean b){
         // TODO: 01-11-2015 skal nok køre som async task
 
+
+
         //http://87.72.39.104/control.php?st=false&cn=0
 
         return "";
@@ -110,6 +120,7 @@ public class ControlOnOffFragment extends Fragment {
             hm.put("stat", status[i]);
             aList.add(hm);
         }
+
         String[] from = {"txt","stat" };
         int[] to = { R.id.mControlSwitch };
         SimpleAdapter adapter = new SimpleAdapter(getActivity(), aList, R.layout.control_layout_single_row, from, to) {
