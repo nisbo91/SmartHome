@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.Calendar;
 import java.util.Date;
 
-public class graph extends Activity {
+public class GraphActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,7 @@ public class graph extends Activity {
         // set date label formatter
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this));
         graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
-        //graph.getGridLabelRenderer().setNumVerticalLabels(8);
+        //GraphActivity.getGridLabelRenderer().setNumVerticalLabels(8);
 
         // set manual x bounds to have nice steps
         graph.getViewport().setMinX(d1.getTime());
