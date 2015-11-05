@@ -1,14 +1,29 @@
 package gruppe180.smarthome;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.internal.widget.AdapterViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.SimpleAdapter;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -38,7 +53,10 @@ public class ControlOnOffFragment extends Fragment {
 
     // names of the switches on the remote server
     private String[] data = new String[] {"Alpha","Beta","Gamma","Delta","Epsilon","Zeta","Eta","Theta"};
-    ListView listView;
+    // preset values
+    private boolean[] status = {false, false, false, false, false, false, false, false};
+    private ListView listView;
+    private List<HashMap<String,Object>> aList;
 
     private OnFragmentInteractionListener mListener;
 
@@ -71,10 +89,9 @@ public class ControlOnOffFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
 
-    private String setRemoteControl(Integer i, boolean s){
+    private String setRemoteSwitch(Integer position, boolean b){
         // TODO: 01-11-2015 skal nok køre som async task
 
         //http://87.72.39.104/control.php?st=false&cn=0
@@ -82,30 +99,62 @@ public class ControlOnOffFragment extends Fragment {
         return "";
     }
 
-    private void updateRemoteControlView(String settings){
-
-
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_control_on_off, container, false);
-        listView = (ListView) view.findViewById(R.id.controlListView);
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.control_layout_single_row, R.id.mControlSwitch, this.data);
-        listView.setAdapter(adapter);
 
-       listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-           @Override
-           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               System.out.println(position);
-               // TODO: 31-10-2015 get status checked/unchecked at the position
-               Boolean status = false; // dummy
-               // TODO: 31-10-2015 update remote server
-               String response = setRemoteControl(position, status);
-               // TODO: 31-10-2015 update list with info from server
-               updateRemoteControlView(response);
-           }
-       });
+        aList = new ArrayList<HashMap<String,Object>>();
+        for(int i=0;i<8;i++){
+            HashMap<String, Object> hm = new HashMap<String,Object>();
+            hm.put("txt", data[i]);
+            hm.put("stat", status[i]);
+            aList.add(hm);
+        }
+        String[] from = {"txt","stat" };
+        int[] to = { R.id.mControlSwitch };
+        SimpleAdapter adapter = new SimpleAdapter(getActivity(), aList, R.layout.control_layout_single_row, from, to) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                Switch mSwitch = (Switch) view.findViewById(R.id.mControlSwitch);
+                HashMap<String,Object> hm = (HashMap) aList.get(position);
+                Boolean chk = (Boolean) hm.get("stat");
+                mSwitch.setChecked(chk);
+                return view;
+            }
+        };
+
+        listView = (ListView) view.findViewById(R.id.controlListView);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SimpleAdapter adapter = (SimpleAdapter) listView.getAdapter();
+                HashMap<String, Object> hm = new HashMap<String,Object>();
+                LinearLayout mLayout = (LinearLayout) view;
+                Switch tgl = (Switch) mLayout.getChildAt(0);
+                // TODO: 04-11-2015 når der skiftes, så skriv til control.php for at skifte på serveren
+                if (tgl.isChecked()) {
+                    tgl.setChecked(!tgl.isChecked());
+                    hm.put("txt", data[position]);
+                    hm.put("stat", tgl.isChecked());
+                    aList.set(position, hm);
+                    adapter.notifyDataSetChanged();
+                    setRemoteSwitch(position, !tgl.isChecked());
+                    System.out.println(false + "@" + position);
+                } else {
+                    tgl.setChecked(!tgl.isChecked());
+                    hm.put("txt", data[position]);
+                    hm.put("stat", tgl.isChecked());
+                    aList.set(position, hm);
+                    adapter.notifyDataSetChanged();
+                    setRemoteSwitch(position, !tgl.isChecked());
+                    System.out.println(true + "@" + position);
+                }
+
+            }
+        });
+
+        listView.setAdapter(adapter);
 
         return view;
     }

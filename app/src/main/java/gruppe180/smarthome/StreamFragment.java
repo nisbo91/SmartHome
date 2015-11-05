@@ -67,18 +67,15 @@ public class StreamFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stream, container, false);
 
-        //final String videoUrl = "http://87.72.39.104:8080/stream";
-
         final WebView webView = (WebView)view.findViewById(R.id.streamWebView);
-        //int default_zoom_level=97;
-        //webView.setInitialScale(default_zoom_level);
+        int default_zoom_level=97;
+        webView.setInitialScale(default_zoom_level);
         webView.post(new Runnable(){
             @Override
             public void run() {
-                //int width = webView.getWidth();
-                //int height = webView.getHeight();
-                //webView.loadUrl(videoUrl + "?width="+width+"&height="+height);
-                webView.loadUrl(prefix + serverURL + stream);
+                int width = webView.getWidth();
+                int height = webView.getHeight();
+                webView.loadUrl(prefix + serverURL + stream + "?width="+width+"&height="+height);
             }
         });
         return view;
