@@ -22,8 +22,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 
-public class LoginFragment extends Fragment implements View.OnClickListener, NfcAdapter.CreateNdefMessageCallback{
-    // TODO: Rename parameter arguments, choose names that match
+public class LoginFragment extends Fragment implements View.OnClickListener, NfcAdapter.ReaderCallback {
+    /*// TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -42,7 +42,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Nfc
      * @param param2 Parameter 2.
      * @return A new instance of fragment LoginFragment.
      */
-    public static LoginFragment newInstance(String param1, String param2) {
+    /*public static LoginFragment newInstance(String param1, String param2) {
         LoginFragment fragment = new LoginFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -62,7 +62,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Nfc
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-    }
+    }*/
 
     private Button loginbutton;
     private Button registerbutton;
@@ -72,11 +72,20 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Nfc
     private TextView activatenfchere;
     private NfcAdapter nfcAdapter;
     private PendingIntent pendingIntent;
+    private String nfc;
+    private String nfcTag;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        try{
+            nfc = getArguments().getByteArray("NFC").toString();
+        }
+        catch (Exception e){
+            System.out.println("no arguments : " +e);
+        }
+
         Log.d("LoginFragment", "Fragment onCreate()");
-        View login = inflater.inflate(R.layout.fragment_login,container,false);
+        View login = inflater.inflate(R.layout.fragment_login, container, false);
 
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter(NfcAdapter.ACTION_ADAPTER_STATE_CHANGED));
 
@@ -89,11 +98,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Nfc
         activatenfchere.setOnClickListener(this);
         loginbutton.setOnClickListener(this);
 
-        if (nfcAdapter.getDefaultAdapter(getActivity()).isEnabled()){
+        if (nfcAdapter.getDefaultAdapter(getActivity()).isEnabled()) {
             //Toast.makeText(getActivity(),"NFC available",Toast.LENGTH_LONG).show();
             updateNFCScreen(true);
-        }
-        else {
+        } else {
             //Toast.makeText(getActivity(),"NFC not available",Toast.LENGTH_LONG).show();
             updateNFCScreen(false);
         }
@@ -104,7 +112,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Nfc
     @Override
     public void onClick(View v) {
         Intent intent = new Intent();
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.activateNfcHereTextView:
                 intent.setAction(Settings.ACTION_NFC_SETTINGS);
                 startActivity(intent);
@@ -115,43 +123,53 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Nfc
                 break;
         }
     }
-    public void updateNFCScreen (boolean b){
-        if (b){
+
+    public void updateNFCScreen(boolean b) {
+        if (b) {
             activatenfchere.setVisibility(View.INVISIBLE);
         }
-        if (!b){
+        if (!b) {
             activatenfchere.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
 
         }
     }
+
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             updateNFCScreen(nfcAdapter.getDefaultAdapter(getActivity()).isEnabled());
         }
     };
+    public void getIntent (){
+        nfcTag = getActivity().getIntent().toString();
+    }
+
+    @Override
+    public void onTagDiscovered(Tag tag) {
+        getIntent();
+    }
     /*@Override
     public void onPause(){
         super.onPause();
         if (nfcAdapter != null) {
             nfcAdapter.disableForegroundDispatch(getActivity());
         }
-    }*/
-    /*@Override
+    }
+    @Override
     public void onResume(){
         super.onResume();
         nfcAdapter.enableForegroundDispatch(this.getActivity(), pendingIntent, null, null);
     }*/
 
-    private void getTagInfo(Intent intent) {
+    /*private void getTagInfo(Intent intent) {
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
         System.out.println(tag);
-    }
+    }*/
+}
 
 
-
+/*
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -165,25 +183,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Nfc
         mListener = null;
     }
 
-    @Override
-    public NdefMessage createNdefMessage(NfcEvent event) {
-        return null;
-    }
-
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
 
-}
+*/
