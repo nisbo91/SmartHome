@@ -1,38 +1,24 @@
 package gruppe180.smarthome;
 
-import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.internal.widget.AdapterViewCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ToggleButton;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,6 +51,7 @@ public class ControlOnOffFragment extends Fragment {
     private boolean[] status = {false, false, false, false, false, false, false, false};
     private ListView listView;
     private List<HashMap<String,Object>> aList;
+    private String controlString;
 
     private OnFragmentInteractionListener mListener;
 
@@ -99,14 +86,40 @@ public class ControlOnOffFragment extends Fragment {
         }
     }
 
-    private String setRemoteSwitch(Integer position, boolean b){
-        // TODO: 01-11-2015 skal nok køre som async task
+    private void updateControl(String string){
+        // split string i 0/1 set boolean on adapter
+        System.out.println(string);
 
+    }
 
+    private void setRemoteSwitch(Integer position, boolean b){
+        // control String
+        final String controlUrl = prefix+serverURL+"/"+mPage+mStatus+b+mDivider+mControl+position;
+        //System.out.println(controlUrl);
+        new AsyncTask(){
+            @Override
+            protected Object doInBackground(Object[] params) {
+                try {
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new URL(controlUrl).openStream()));
+                    StringBuilder stringBuilder = new StringBuilder();
+                    String line = bufferedReader.readLine();
+                    while (line != null){
+                        stringBuilder.append(line+"\n");
+                        line = bufferedReader.readLine();
+                    }
+                    controlString = stringBuilder.toString();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
 
-        //http://87.72.39.104/control.php?st=false&cn=0
-
-        return "";
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                updateControl(controlString);
+            }
+        }.execute();
     }
 
     @Override
@@ -150,16 +163,16 @@ public class ControlOnOffFragment extends Fragment {
                     hm.put("stat", tgl.isChecked());
                     aList.set(position, hm);
                     adapter.notifyDataSetChanged();
-                    setRemoteSwitch(position, !tgl.isChecked());
-                    System.out.println(false + "@" + position);
+                    setRemoteSwitch(position, tgl.isChecked());
+                    //System.out.println(false + "@" + position);
                 } else {
                     tgl.setChecked(!tgl.isChecked());
                     hm.put("txt", data[position]);
                     hm.put("stat", tgl.isChecked());
                     aList.set(position, hm);
                     adapter.notifyDataSetChanged();
-                    setRemoteSwitch(position, !tgl.isChecked());
-                    System.out.println(true + "@" + position);
+                    setRemoteSwitch(position, tgl.isChecked());
+                    //System.out.println(true + "@" + position);
                 }
 
             }
@@ -183,16 +196,6 @@ public class ControlOnOffFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);

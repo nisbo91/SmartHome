@@ -5,25 +5,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-public class OptionActivity extends AppCompatActivity implements View.OnClickListener{
+public class OptionsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_option);
-        (findViewById(R.id.listCardsButton)).setOnClickListener(this);
-        (findViewById(R.id.controlButton)).setOnClickListener(this);
-        (findViewById(R.id.environmentalButton)).setOnClickListener(this);
-        (findViewById(R.id.logoutButton)).setOnClickListener(this);
+        setContentView(R.layout.activity_options);
+
+        getSupportFragmentManager().beginTransaction().add(R.id.mOptionsFrameLayout, new OptionsFragment()).commit();
+
+
+
     }
 
-    @Override
-    public void onClick(View v) {
+    public void changeFragment(View v) {
         Intent intent;
         switch (v.getId()){
             case R.id.listCardsButton:
                 // TODO: 05-11-2015 skift fragment til List Cards
-                getSupportFragmentManager().beginTransaction().replace(R.id.optionsLayout, new ListCardsFragment()).setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.mOptionsFrameLayout, new ListCardsFragment()).setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
                 break;
             case R.id.controlButton:
                 intent = new Intent(this, ControlActivity.class);

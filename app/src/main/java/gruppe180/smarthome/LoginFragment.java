@@ -37,7 +37,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private String nfc;
     private byte[] nfcTag;
     static LoginFragment synligInstans;
-    private void nfcTagHex;
+    //private void nfcTagHex;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -83,7 +83,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.loginButton:
-                intent = new Intent(getActivity(), OptionActivity.class);
+                //intent = new Intent(getActivity(), OptionActivity.class);
+                intent = new Intent(getActivity(), OptionsActivity.class);
                 this.startActivity(intent);
                 break;
         }
