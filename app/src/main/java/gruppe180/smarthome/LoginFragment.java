@@ -57,7 +57,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         activatenfchere.setOnClickListener(this);
         loginbutton.setOnClickListener(this);
 
-        if (nfcAdapter.getDefaultAdapter(getActivity()).isEnabled()) {
+        if (nfcAdapter!=null && nfcAdapter.getDefaultAdapter(getActivity()).isEnabled()) {
             //Toast.makeText(getActivity(),"NFC available",Toast.LENGTH_LONG).show();
             updateNFCScreen(true);
         } else {
