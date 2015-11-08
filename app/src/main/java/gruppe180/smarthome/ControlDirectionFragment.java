@@ -129,7 +129,7 @@ public class ControlDirectionFragment extends Fragment implements View.OnClickLi
             case R.id.controlTagButton:
                 System.out.println("TAG!!");
                 animateImageButton(cTag);
-                ((ControlActivity)getActivity()).setNewBottomFragment();
+                //((ControlActivity)getActivity()).setNewBottomFragment();
                 break;
         }
     }

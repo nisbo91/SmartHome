@@ -47,7 +47,6 @@ public class ControlOnOffFragment extends Fragment {
 
     // names of the switches on the remote server
     private String[] data = new String[] {"Alpha","Beta","Gamma","Delta","Epsilon","Zeta","Eta","Theta"};
-    // preset values
     private boolean[] status = {false, false, false, false, false, false, false, false};
     private ListView listView;
     private List<HashMap<String,Object>> aList;
@@ -87,9 +86,7 @@ public class ControlOnOffFragment extends Fragment {
     }
 
     private void updateControl(String string){
-        // split string i 0/1 set boolean on adapter
         System.out.println(string);
-
     }
 
     private void setRemoteSwitch(Integer position, boolean b){
