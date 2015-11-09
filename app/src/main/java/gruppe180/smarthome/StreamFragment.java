@@ -1,5 +1,6 @@
 package gruppe180.smarthome;
 
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -66,10 +67,10 @@ public class StreamFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stream, container, false);
-
         final WebView webView = (WebView)view.findViewById(R.id.streamWebView);
         int default_zoom_level=97;
         webView.setInitialScale(default_zoom_level);
+        webView.setBackgroundColor(Color.TRANSPARENT);
         webView.post(new Runnable(){
             @Override
             public void run() {
