@@ -17,13 +17,12 @@ public class ControlActivity extends AppCompatActivity {
         setContentView(R.layout.activity_control);
 
         if (savedInstanceState==null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.topFrame, new StreamFragment(), "top").commit();
-            //getSupportFragmentManager().beginTransaction().add(R.id.bottomFrame, new ControlOnOffFragment(), "bot").commit();
-            //getSupportFragmentManager().beginTransaction().add(R.id.bottomFrame, new ControlDirectionFragment(), "bot").commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.topFrame, new StreamFragment()).commit();
         }
 
         viewPager = (ViewPager) findViewById(R.id.bottomFrame);
         viewPager.setAdapter(new VPAdapter(getSupportFragmentManager()));
+
     }
 
     private class VPAdapter extends FragmentPagerAdapter {
@@ -34,11 +33,11 @@ public class ControlActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             Fragment fragment = new ControlOnOffFragment();
-            switch (position){
+            switch (position) {
                 case 1:
-                    fragment =  new ControlOnOffFragment();
+                    fragment = new ControlOnOffFragment();
                 case 2:
-                    fragment =  new ControlDirectionFragment();
+                    fragment = new ControlDirectionFragment();
             }
             return fragment;
         }

@@ -1,6 +1,5 @@
 package gruppe180.smarthome;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -60,10 +59,12 @@ public class ListCardsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list_cards, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_list_cards, container, false);
+
+
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

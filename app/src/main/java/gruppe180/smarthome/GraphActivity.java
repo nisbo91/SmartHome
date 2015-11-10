@@ -1,18 +1,12 @@
 package gruppe180.smarthome;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
-
-import java.util.Calendar;
-import java.util.Date;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -33,16 +27,14 @@ public class GraphActivity extends AppCompatActivity {
 
         GraphView graph = (GraphView) findViewById(R.id.graph);
 
-// you can directly pass Date objects to DataPoint-Constructor
-// this will convert the Date to double via Date#getTime()
+        // you can directly pass Date objects to DataPoint-Constructor
+        // this will convert the Date to double via Date#getTime()
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
                 new DataPoint(d1, 1),
                 new DataPoint(d2, 5),
                 new DataPoint(d3, 3)
         });
                 graph.addSeries(series);
-
-
 
         // set date label formatter
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this));

@@ -21,7 +21,7 @@
     <string name="title_activity_options">Options</string>
 
     <string name="hello_world">Hello world!</string>
-
+    <string name="title_activity_environment">Environment</string>
 
 
 </resources>

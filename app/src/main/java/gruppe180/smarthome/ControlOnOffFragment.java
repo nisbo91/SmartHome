@@ -90,9 +90,7 @@ public class ControlOnOffFragment extends Fragment {
     }
 
     private void setRemoteSwitch(Integer position, boolean b){
-        // control String
         final String controlUrl = prefix+serverURL+"/"+mPage+mStatus+b+mDivider+mControl+position;
-        //System.out.println(controlUrl);
         new AsyncTask(){
             @Override
             protected Object doInBackground(Object[] params) {
