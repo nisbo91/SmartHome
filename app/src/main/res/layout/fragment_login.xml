@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:weightSum="1"
+    android:background="@drawable/smarthome">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Smart Home"
+        android:id="@+id/smartHomeTextView"
+        android:textColor="@android:color/background_light"
+        android:textSize="@dimen/abc_action_bar_progress_bar_size"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.5"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Place NFC Card"
+        android:id="@+id/placeNfcCardTextView"
+        android:layout_gravity="center_horizontal"
+        android:textSize="@dimen/abc_action_button_min_width_overflow_material"
+        android:textColor="@android:color/background_light" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Activate NFC here"
+        android:id="@+id/activateNfcHereTextView"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.5"
+        android:visibility="invisible"
+        android:textSize="20dp"
+        android:textColor="#ff0054" />
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:layout_gravity="center_horizontal"
+        android:ems="10"
+        android:drawableLeft="@android:drawable/ic_lock_idle_lock"
+        android:id="@+id/passwordEdittext"
+        android:hint="Password" />
+
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:id="@+id/loginButton"
+        android:layout_gravity="center_horizontal"/>
+
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:id="@+id/registerButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"/>
+
+</LinearLayout>

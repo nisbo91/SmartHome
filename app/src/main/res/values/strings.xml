@@ -1,9 +1,27 @@
 <resources>
-    <string name="app_name">SmartHome</string>
-
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">SmartHome v1.0</string>
     <string name="action_settings">Settings</string>
 
 <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_activity_option">Options</string>
+    <string name="loginText">Login</string>
+    <string name="title_activity_control">Control</string>
+    <string name="listCardsButton">List Cards</string>
+    <string name="controlButtonText">Control</string>
+    <string name="environMentalButtonText">Environmental</string>
+    <string name="logoutButtonText">logout</string>
+    <string name="upText">up</string>
+    <string name="rightText">up</string>
+    <string name="downText">up</string>
+    <string name="leftText">up</string>
+    <string name="tagText">up</string>
+
+<!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_options">Options</string>
+
+    <string name="hello_world">Hello world!</string>
+
+
+
 </resources>
