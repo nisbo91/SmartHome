@@ -26,18 +26,18 @@
         <activity
             android:name=".ControlActivity"
             android:label="@string/title_activity_control"
-            android:parentActivityName=".OptionActivity" >
+            android:parentActivityName=".ControlActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="gruppe180.smarthome.OptionActivity" />
+                android:value="gruppe180.smarthome.ControlActivity" />
         </activity>
         <activity
             android:name=".GraphActivity"
             android:label="@string/title_activity_environment"
-            android:parentActivityName=".OptionActivity" >
+            android:parentActivityName=".GraphActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="gruppe180.smarthome.OptionActivity" />
+                android:value="gruppe180.smarthome.GraphActivity" />
         </activity>
         <activity
             android:name=".OptionsActivity"
