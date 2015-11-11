@@ -26,7 +26,7 @@ public class OptionsActivity extends AppCompatActivity{
                 this.startActivity(intent);
                 break;
             case R.id.environmentalButton:
-                intent = new Intent(this, GraphFragment.class);
+                intent = new Intent(this, GraphActivity.class);
                 this.startActivity(intent);
                 break;
             case R.id.logoutButton:
