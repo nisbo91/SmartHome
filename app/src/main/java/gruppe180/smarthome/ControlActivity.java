@@ -23,6 +23,7 @@ public class ControlActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.bottomFrame);
         viewPager.setAdapter(new VPAdapter(getSupportFragmentManager()));
 
+
     }
 
     private class VPAdapter extends FragmentPagerAdapter {
