@@ -23,9 +23,9 @@ public class StreamFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    final String prefix = "http://";            // fast
-    final String serverURL = "87.72.39.104";    // fra database ved registrering, ændres fra final senere
-    final String stream = ":8080/stream";       // fast
+    private final String prefix = "http://";            // fast
+    private final String serverURL = "87.72.39.104";    // fra database ved registrering, ændres fra final senere
+    private final String stream = ":8080/stream";       // fast
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -71,15 +71,22 @@ public class StreamFragment extends Fragment {
         int default_zoom_level=97;
         webView.setInitialScale(default_zoom_level);
         webView.setBackgroundColor(Color.TRANSPARENT);
-        webView.post(new Runnable(){
+
+        webView.post(new Runnable() {
             @Override
             public void run() {
                 int width = webView.getWidth();
                 int height = webView.getHeight();
-                webView.loadUrl(prefix + serverURL + stream + "?width="+width+"&height="+height);
+                webView.loadUrl(prefix + serverURL + stream + "?width=" + width + "&height=" + height);
             }
         });
         return view;
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        ((WebView)getView().findViewById(R.id.streamWebView)).stopLoading();
     }
 
     public void onButtonPressed(Uri uri) {
