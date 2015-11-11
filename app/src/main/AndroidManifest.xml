@@ -32,12 +32,12 @@
                 android:value="gruppe180.smarthome.ControlActivity" />
         </activity>
         <activity
-            android:name=".GraphActivity"
+            android:name=".GraphFragment"
             android:label="@string/title_activity_environment"
-            android:parentActivityName=".GraphActivity" >
+            android:parentActivityName=".GraphFragment" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="gruppe180.smarthome.GraphActivity" />
+                android:value=".GraphFragment" />
         </activity>
         <activity
             android:name=".OptionsActivity"
