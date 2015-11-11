@@ -26,7 +26,10 @@ public class OptionsActivity extends AppCompatActivity{
                 this.startActivity(intent);
                 break;
             case R.id.environmentalButton:
-                getSupportFragmentManager().beginTransaction().replace(R.id.mOptionsFrameLayout, new GraphFragment()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
+                intent = new Intent(this, GraphActivity.class);
+                this.startActivity(intent);
+
+                //getSupportFragmentManager().beginTransaction().replace(R.id.mOptionsFrameLayout, new GraphFragment()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
                 break;
             case R.id.logoutButton:
                 finish();

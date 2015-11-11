@@ -20,6 +20,7 @@ public class GraphActivity extends AppCompatActivity {
         GraphFragment fragment;
         fragment = new GraphFragment();
 
+
     }
 
 }
