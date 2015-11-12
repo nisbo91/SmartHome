@@ -17,8 +17,17 @@ import android.view.ViewGroup;
  * Use the {@link RegisterFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RegisterFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
+public class RegisterFragment extends Fragment implements View.OnClickListener {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_register, container, false);
+
+    }
+    public void onClick(View v) {
+
+    }
+ /*   // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -28,7 +37,7 @@ public class RegisterFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-
+*/
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -37,7 +46,7 @@ public class RegisterFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment RegisterFragment.
      */
-    // TODO: Rename and change types and number of parameters
+    /*// TODO: Rename and change types and number of parameters
     public static RegisterFragment newInstance(String param1, String param2) {
         RegisterFragment fragment = new RegisterFragment();
         Bundle args = new Bundle();
@@ -59,14 +68,9 @@ public class RegisterFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+*/
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register, container, false);
-    }
-
+/*
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -78,7 +82,10 @@ public class RegisterFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
+    }*/
+
+    //@Override
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -90,9 +97,9 @@ public class RegisterFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    /*public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
-    }
+    }*/
 
 }

@@ -51,7 +51,7 @@ public class StreamFragment extends Fragment {
         return fragment;
     }
 
-    public StreamFragment() {
+    public  StreamFragment() {
         // Required empty public constructor
     }
 
