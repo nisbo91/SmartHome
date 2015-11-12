@@ -2,11 +2,12 @@ package gruppe180.smarthome;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
@@ -48,7 +49,7 @@ public class GraphFragment extends Fragment {
     // names of the switches on the remote server
     private int[] data = new int[]{2,3,5,7,4,1,9,8};
     private boolean[] status = {false, false, false, false, false, false, false, false};
-    private GraphView graphView;
+    public GraphView graphView;
    // private List<HashMap<String,Object>> aList;
     private String graphString;
 
@@ -84,14 +85,15 @@ public class GraphFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-// <com.jjoe64.graphview.GraphView
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_graph, container, false);
 
-        LinearLayout layout = (LinearLayout) view.findViewById(R.id.graph);
-        layout.addView(graphView);
+
+//        RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.graph);
+//        layout.addView(graphView);
+
         // Inflate the layout for this fragment
 
         //setContentView(R.layout.fragment_graph);
