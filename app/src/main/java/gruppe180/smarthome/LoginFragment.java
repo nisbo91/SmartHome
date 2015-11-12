@@ -1,5 +1,6 @@
 package gruppe180.smarthome;
 
+import android.app.FragmentTransaction;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 
 public class LoginFragment extends Fragment implements View.OnClickListener {
@@ -56,15 +61,16 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         activatenfchere = (TextView) login.findViewById(R.id.activateNfcHereTextView);
         activatenfchere.setOnClickListener(this);
         loginbutton.setOnClickListener(this);
+        registerbutton.setOnClickListener(this);
 
-        if (nfcAdapter!=null && nfcAdapter.getDefaultAdapter(getActivity()).isEnabled()) {
+        if (nfcAdapter.getDefaultAdapter(getActivity()).isEnabled()) {
             //Toast.makeText(getActivity(),"NFC available",Toast.LENGTH_LONG).show();
             updateNFCScreen(true);
         } else {
             //Toast.makeText(getActivity(),"NFC not available",Toast.LENGTH_LONG).show();
             updateNFCScreen(false);
         }
-
+        System.out.println("nfc:"+nfcAdapter.getDefaultAdapter(getActivity()).isEnabled()+" adapter " +nfcAdapter);
         return login;
     }
 
@@ -77,6 +83,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         Intent intent = new Intent();
+        System.out.println("hans");
         switch (v.getId()) {
             case R.id.activateNfcHereTextView:
                 intent.setAction(Settings.ACTION_NFC_SETTINGS);
@@ -87,21 +94,24 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 this.startActivity(intent);
                 break;
             case R.id.registerButton:
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.startFragment, new RegisterFragment()).commit();
+                android.support.v4.app.FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.startFragment, new RegisterFragment()).addToBackStack(null).commit();
                 System.out.println("resiter");
                 break;
         }
     }
 
     public void updateNFCScreen(boolean b) {
-        if (b) {
+        if (b==true) {
             activatenfchere.setVisibility(View.INVISIBLE);
         }
-        if (!b) {
+        if (!b==true) {
             activatenfchere.setVisibility(View.VISIBLE);
-        } else {
+        }
+        else{
 
         }
+        System.out.println(b);
     }
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -113,8 +123,27 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     public void nfcTagSkannet(Intent intent) {
         nfcTag = intent.getByteArrayExtra(NfcAdapter.EXTRA_ID);
-        //nfcTagHex = new Conversion().byteTo
-        Toast.makeText(getActivity(), "hurra nfc2! " + nfcTag, Toast.LENGTH_LONG).show();
+        String hexArrayNfcTag = byteToHex(nfcTag);
+        System.out.println(hexArrayNfcTag);
+        String text = "Card ID: " + hexArrayNfcTag+ "\n\nEnter password for login";
+        placenfccardtextview.setText(text);
+        placenfccardtextview.setTextSize(25);
+        placenfccardtextview.setGravity(Gravity.CENTER_HORIZONTAL);
+
+        //Toast.makeText(getActivity(), "hurra nfc2! " + hexArray, Toast.LENGTH_LONG).show();
+    }
+    public String byteToHex(byte[] src){
+        StringBuilder stringBuilder = new StringBuilder();
+        if(src == null || src.length<=0){
+            return null;
+        }
+        char[] buffer = new char[2];
+        for(int i=0; i<src.length; i++) {
+            buffer[0] = Character.forDigit((src[i]>>>4)&0x0F, 16);
+            buffer[1] = Character.forDigit((src[i]) & 0x0F, 16);
+            stringBuilder.append(buffer);
+        }
+        return stringBuilder.toString();
     }
 
 }
