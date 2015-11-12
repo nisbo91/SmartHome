@@ -52,6 +52,7 @@ public class ControlOnOffFragment extends Fragment {
     private List<HashMap<String,Object>> aList;
     private String controlString;
 
+
     private OnFragmentInteractionListener mListener;
 
     /**
@@ -86,7 +87,41 @@ public class ControlOnOffFragment extends Fragment {
     }
 
     private void updateControl(String string){
+        for(Integer i=0; i<string.length(); i++){
+            if(string.charAt(i)==0){
+                status[i] = true;
+            }else{
+                status[i] = false;
+            }
+            ((SimpleAdapter) listView.getAdapter()).notifyDataSetChanged();
+        }
         System.out.println(string);
+    }
+
+    private void getRemoteSwitch(){
+        final String url = prefix+serverURL+"/"+mPage;
+        new AsyncTask(){
+            @Override
+            protected Object doInBackground(Object[] params) {
+                try {
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new URL(url).openStream()));
+                    StringBuilder stringBuilder = new StringBuilder();
+                    String line = bufferedReader.readLine();
+                    stringBuilder.append(line);
+                    line = line.replace(" ", "");
+                    controlString = line;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                updateControl(controlString);
+            }
+        }.execute();
     }
 
     private void setRemoteSwitch(Integer position, boolean b){
@@ -98,11 +133,9 @@ public class ControlOnOffFragment extends Fragment {
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new URL(controlUrl).openStream()));
                     StringBuilder stringBuilder = new StringBuilder();
                     String line = bufferedReader.readLine();
-                    while (line != null){
-                        stringBuilder.append(line+"\n");
-                        line = bufferedReader.readLine();
-                    }
-                    controlString = stringBuilder.toString();
+                    stringBuilder.append(line);
+                    line = line.replace(" ", "");
+                    controlString = line;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -120,6 +153,8 @@ public class ControlOnOffFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_control_on_off, container, false);
+
+        getRemoteSwitch();
 
         aList = new ArrayList<HashMap<String,Object>>();
         for(int i=0;i<8;i++){
@@ -151,30 +186,15 @@ public class ControlOnOffFragment extends Fragment {
                 HashMap<String, Object> hm = new HashMap<String,Object>();
                 LinearLayout mLayout = (LinearLayout) view;
                 Switch tgl = (Switch) mLayout.getChildAt(0);
-                // TODO: 04-11-2015 når der skiftes, så skriv til control.php for at skifte på serveren
-                if (tgl.isChecked()) {
-                    tgl.setChecked(!tgl.isChecked());
-                    hm.put("txt", data[position]);
-                    hm.put("stat", tgl.isChecked());
-                    aList.set(position, hm);
-                    adapter.notifyDataSetChanged();
-                    setRemoteSwitch(position, tgl.isChecked());
-                    //System.out.println(false + "@" + position);
-                } else {
-                    tgl.setChecked(!tgl.isChecked());
-                    hm.put("txt", data[position]);
-                    hm.put("stat", tgl.isChecked());
-                    aList.set(position, hm);
-                    adapter.notifyDataSetChanged();
-                    setRemoteSwitch(position, tgl.isChecked());
-                    //System.out.println(true + "@" + position);
-                }
-
+                tgl.setChecked(!tgl.isChecked());
+                hm.put("txt", data[position]);
+                hm.put("stat", tgl.isChecked());
+                aList.set(position, hm);
+                adapter.notifyDataSetChanged();
+                setRemoteSwitch(position, tgl.isChecked());
             }
         });
-
         listView.setAdapter(adapter);
-
         return view;
     }
 
