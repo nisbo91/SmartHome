@@ -1,8 +1,10 @@
 package gruppe180.smarthome;
 
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +53,8 @@ public class ControlOnOffFragment extends Fragment {
     private ListView listView;
     private List<HashMap<String,Object>> aList;
     private String controlString;
-
+    private SharedPreferences sharedPreferences;
+    private SimpleAdapter adapter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -84,18 +87,26 @@ public class ControlOnOffFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        getRemoteSwitch();
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
+        controlString = sharedPreferences.getString("status", "00000000");
+        updateControl(controlString);
+
+        System.out.println("onCreate: " + controlString);
+
     }
 
     private void updateControl(String string){
         for(Integer i=0; i<string.length(); i++){
-            if(string.charAt(i)==0){
-                status[i] = true;
-            }else{
+            if(string.charAt(i) == '0'){
                 status[i] = false;
+            }else{
+                status[i] = true;
             }
-            ((SimpleAdapter) listView.getAdapter()).notifyDataSetChanged();
         }
-        System.out.println(string);
+        System.out.println("UpdateString: " + string);
     }
 
     private void getRemoteSwitch(){
@@ -119,6 +130,7 @@ public class ControlOnOffFragment extends Fragment {
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
+                sharedPreferences.edit().putString("status", controlString).commit();
                 updateControl(controlString);
             }
         }.execute();
@@ -145,6 +157,7 @@ public class ControlOnOffFragment extends Fragment {
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
+                sharedPreferences.edit().putString("status", controlString).commit();
                 updateControl(controlString);
             }
         }.execute();
@@ -153,8 +166,6 @@ public class ControlOnOffFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_control_on_off, container, false);
-
-        getRemoteSwitch();
 
         aList = new ArrayList<HashMap<String,Object>>();
         for(int i=0;i<8;i++){
@@ -166,7 +177,7 @@ public class ControlOnOffFragment extends Fragment {
 
         String[] from = {"txt","stat" };
         int[] to = { R.id.mControlSwitch };
-        SimpleAdapter adapter = new SimpleAdapter(getActivity(), aList, R.layout.control_layout_single_row, from, to) {
+        adapter = new SimpleAdapter(getActivity(), aList, R.layout.control_layout_single_row, from, to) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -183,7 +194,7 @@ public class ControlOnOffFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SimpleAdapter adapter = (SimpleAdapter) listView.getAdapter();
-                HashMap<String, Object> hm = new HashMap<String,Object>();
+                HashMap<String, Object> hm = new HashMap<String, Object>();
                 LinearLayout mLayout = (LinearLayout) view;
                 Switch tgl = (Switch) mLayout.getChildAt(0);
                 tgl.setChecked(!tgl.isChecked());
@@ -195,6 +206,8 @@ public class ControlOnOffFragment extends Fragment {
             }
         });
         listView.setAdapter(adapter);
+
+        System.out.println("view created");
         return view;
     }
 
