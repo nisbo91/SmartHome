@@ -173,6 +173,7 @@ public class ControlOnOffFragment extends Fragment {
         String[] from = {"txt","stat" };
         int[] to = { R.id.mControlSwitch };
         adapter = new SimpleAdapter(getActivity(), aList, R.layout.control_layout_single_row, from, to) {
+        //SimpleAdapter adapter = new SimpleAdapter(getActivity(), aList, R.layout.control_layout_single_row, from, to) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -188,7 +189,8 @@ public class ControlOnOffFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SimpleAdapter adapter = (SimpleAdapter) listView.getAdapter();
+                adapter = (SimpleAdapter) listView.getAdapter();
+                //SimpleAdapter adapter = (SimpleAdapter) listView.getAdapter();
                 HashMap<String, Object> hm = new HashMap<String, Object>();
                 LinearLayout mLayout = (LinearLayout) view;
                 Switch tgl = (Switch) mLayout.getChildAt(0);
