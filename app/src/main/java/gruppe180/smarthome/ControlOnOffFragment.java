@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,8 +51,7 @@ public class ControlOnOffFragment extends Fragment {
     private boolean[] status = {false, false, false, false, false, false, false, false};
     private ListView listView;
     private List<HashMap<String,Object>> aList;
-    private String controlString;
-    private SharedPreferences sharedPreferences;
+    private String controlString="";
     private SimpleAdapter adapter;
 
     private OnFragmentInteractionListener mListener;
@@ -88,17 +86,11 @@ public class ControlOnOffFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        getRemoteSwitch();
-
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
-        controlString = sharedPreferences.getString("status", "00000000");
-        updateControl(controlString);
-
-        System.out.println("onCreate: " + controlString);
+        getRemoteSwitchStatus();
 
     }
 
-    private void updateControl(String string){
+    private void updateSwitchStatus(String string){
         for(Integer i=0; i<string.length(); i++){
             if(string.charAt(i) == '0'){
                 status[i] = false;
@@ -109,7 +101,7 @@ public class ControlOnOffFragment extends Fragment {
         System.out.println("UpdateString: " + string);
     }
 
-    private void getRemoteSwitch(){
+    private void getRemoteSwitchStatus(){
         final String url = prefix+serverURL+"/"+mPage;
         new AsyncTask(){
             @Override
@@ -130,8 +122,7 @@ public class ControlOnOffFragment extends Fragment {
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
-                sharedPreferences.edit().putString("status", controlString).commit();
-                updateControl(controlString);
+                updateSwitchStatus(controlString);
             }
         }.execute();
     }
@@ -157,8 +148,7 @@ public class ControlOnOffFragment extends Fragment {
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
-                sharedPreferences.edit().putString("status", controlString).commit();
-                updateControl(controlString);
+                updateSwitchStatus(controlString);
             }
         }.execute();
     }
