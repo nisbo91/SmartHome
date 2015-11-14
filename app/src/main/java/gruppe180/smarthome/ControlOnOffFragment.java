@@ -1,6 +1,7 @@
 package gruppe180.smarthome;
 
 import android.content.SharedPreferences;
+import android.database.DataSetObserver;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -85,9 +86,7 @@ public class ControlOnOffFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
         getRemoteSwitchStatus();
-
     }
 
     private void updateSwitchStatus(String string){
