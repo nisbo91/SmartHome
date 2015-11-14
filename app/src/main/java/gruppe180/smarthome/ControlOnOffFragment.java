@@ -97,6 +97,12 @@ public class ControlOnOffFragment extends Fragment {
                 status[i] = true;
             }
         }
+        for(int i=0;i<8;i++){
+            HashMap<String, Object> hm = aList.get(i);
+            hm.put("txt", data[i]);
+            hm.put("stat", status[i]);
+        }
+        adapter.notifyDataSetChanged();
         System.out.println("UpdateString: " + string);
     }
 
