@@ -63,20 +63,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         loginbutton.setOnClickListener(this);
         registerbutton.setOnClickListener(this);
 
-        if (nfcAdapter==null) {
-            Toast.makeText(getActivity(),"nfcAdapter==null",Toast.LENGTH_LONG).show();
-            updateNFCScreen(false);
-
+        if (nfcAdapter.getDefaultAdapter(getActivity()).isEnabled()) {
+            //Toast.makeText(getActivity(),"NFC available",Toast.LENGTH_LONG).show();
+            updateNFCScreen(true);
         } else {
-            if (nfcAdapter.getDefaultAdapter(getActivity()).isEnabled()) {
-                //Toast.makeText(getActivity(),"NFC available",Toast.LENGTH_LONG).show();
-                updateNFCScreen(true);
-            } else {
-                //Toast.makeText(getActivity(),"NFC not available",Toast.LENGTH_LONG).show();
-                updateNFCScreen(false);
-            }
-            System.out.println("nfc:"+nfcAdapter.getDefaultAdapter(getActivity()).isEnabled()+" adapter " +nfcAdapter);
+            //Toast.makeText(getActivity(),"NFC not available",Toast.LENGTH_LONG).show();
+            updateNFCScreen(false);
         }
+        System.out.println("nfc:"+nfcAdapter.getDefaultAdapter(getActivity()).isEnabled()+" adapter " +nfcAdapter);
         return login;
     }
 
