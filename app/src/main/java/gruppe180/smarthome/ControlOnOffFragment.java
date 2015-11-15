@@ -1,7 +1,6 @@
 package gruppe180.smarthome;
 
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,10 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Switch;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,13 +30,6 @@ public class ControlOnOffFragment extends Fragment implements ExternalDatabaseRe
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    final String prefix = "http://";            // fast
-    final String serverURL = "87.72.39.104";    // fra database ved registrering, ændres senere
-    private final String mPage = "control.php?";
-    private final String mStatus = "st=";
-    private final String mDivider = "&";
-    private final String mControl = "cn=";
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -50,9 +39,9 @@ public class ControlOnOffFragment extends Fragment implements ExternalDatabaseRe
     private boolean[] status = {false, false, false, false, false, false, false, false};
     private ListView listView;
     private List<HashMap<String,Object>> controlList;
-    private String controlString="";
     private SimpleAdapter adapter;
     private ExternalDatabaseManager externalDatabaseManager = new ExternalDatabaseManager();
+    final String cPage = "control.php?";
 
     private OnFragmentInteractionListener mListener;
 
@@ -85,14 +74,8 @@ public class ControlOnOffFragment extends Fragment implements ExternalDatabaseRe
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        //getRemoteSwitchStatus();
-
         externalDatabaseManager.delegate = this;
-
-        String url = prefix+serverURL+"/"+mPage;
-        externalDatabaseManager.getRemoteServerResponse(url);
-
-
+        externalDatabaseManager.getRemoteServerResponse(cPage);
     }
 
     @Override
@@ -134,7 +117,7 @@ public class ControlOnOffFragment extends Fragment implements ExternalDatabaseRe
                 hm.put("stat", tgl.isChecked());
                 controlList.set(position, hm);
                 adapter.notifyDataSetChanged();
-                setRemoteSwitch(position, tgl.isChecked());
+                externalDatabaseManager.setRemoteSwitch(position, tgl.isChecked());
             }
         });
         listView.setAdapter(adapter);
@@ -158,56 +141,6 @@ public class ControlOnOffFragment extends Fragment implements ExternalDatabaseRe
         System.out.println("UpdateString: " + string);
     }
 
-/*    private void getRemoteSwitchStatus(){
-        final String url = prefix+serverURL+"/"+mPage;
-        new AsyncTask(){
-            @Override
-            protected Object doInBackground(Object[] params) {
-                try {
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new URL(url).openStream()));
-                    StringBuilder stringBuilder = new StringBuilder();
-                    String line = bufferedReader.readLine();
-                    stringBuilder.append(line);
-                    controlString = line.replace(" ", "");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Object o) {
-                super.onPostExecute(o);
-                updateSwitchStatus(controlString);
-            }
-        }.execute();
-    }*/
-
-    private void setRemoteSwitch(Integer position, boolean b){
-        final String controlUrl = prefix+serverURL+"/"+mPage+mStatus+b+mDivider+mControl+position;
-        new AsyncTask(){
-            @Override
-            protected Object doInBackground(Object[] params) {
-                try {
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new URL(controlUrl).openStream()));
-                    StringBuilder stringBuilder = new StringBuilder();
-                    String line = bufferedReader.readLine();
-                    stringBuilder.append(line);
-                    controlString = line.replace(" ", "");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Object o) {
-                super.onPostExecute(o);
-                updateSwitchStatus(controlString);
-            }
-        }.execute();
-    }
-
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -224,7 +157,6 @@ public class ControlOnOffFragment extends Fragment implements ExternalDatabaseRe
     @Override
     public void processFinish(String output) {
         updateSwitchStatus(output);
-        //System.out.println("proces finished:" + output);
     }
 
     public interface OnFragmentInteractionListener {
