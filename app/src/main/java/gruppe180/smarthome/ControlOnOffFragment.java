@@ -1,7 +1,5 @@
 package gruppe180.smarthome;
 
-import android.content.SharedPreferences;
-import android.database.DataSetObserver;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,7 +28,7 @@ import java.util.List;
  * Use the {@link ControlOnOffFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ControlOnOffFragment extends Fragment {
+public class ControlOnOffFragment extends Fragment implements ExternalDatabaseResponse{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -48,12 +46,13 @@ public class ControlOnOffFragment extends Fragment {
     private String mParam2;
 
     // names of the switches on the remote server
-    private String[] data = new String[] {"Alpha","Beta","Gamma","Delta","Epsilon","Zeta","Eta","Theta"};
+    private String[] switchNames = new String[] {"Alpha","Beta","Gamma","Delta","Epsilon","Zeta","Eta","Theta"};
     private boolean[] status = {false, false, false, false, false, false, false, false};
     private ListView listView;
-    private List<HashMap<String,Object>> aList;
+    private List<HashMap<String,Object>> controlList;
     private String controlString="";
     private SimpleAdapter adapter;
+    private ExternalDatabaseManager externalDatabaseManager = new ExternalDatabaseManager();
 
     private OnFragmentInteractionListener mListener;
 
@@ -86,99 +85,36 @@ public class ControlOnOffFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        getRemoteSwitchStatus();
-    }
+        //getRemoteSwitchStatus();
 
-    private void updateSwitchStatus(String string){
-        for(Integer i=0; i<string.length(); i++){
-            if(string.charAt(i) == '0'){
-                status[i] = false;
-            }else{
-                status[i] = true;
-            }
-        }
-        for(int i=0;i<8;i++){
-            HashMap<String, Object> hm = aList.get(i);
-            hm.put("txt", data[i]);
-            hm.put("stat", status[i]);
-        }
-        adapter.notifyDataSetChanged();
-        System.out.println("UpdateString: " + string);
-    }
+        externalDatabaseManager.delegate = this;
 
-    private void getRemoteSwitchStatus(){
-        final String url = prefix+serverURL+"/"+mPage;
-        new AsyncTask(){
-            @Override
-            protected Object doInBackground(Object[] params) {
-                try {
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new URL(url).openStream()));
-                    StringBuilder stringBuilder = new StringBuilder();
-                    String line = bufferedReader.readLine();
-                    stringBuilder.append(line);
-                    line = line.replace(" ", "");
-                    controlString = line;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
+        String url = prefix+serverURL+"/"+mPage;
+        externalDatabaseManager.getRemoteServerResponse(url);
 
-            @Override
-            protected void onPostExecute(Object o) {
-                super.onPostExecute(o);
-                updateSwitchStatus(controlString);
-            }
-        }.execute();
-    }
 
-    private void setRemoteSwitch(Integer position, boolean b){
-        final String controlUrl = prefix+serverURL+"/"+mPage+mStatus+b+mDivider+mControl+position;
-        new AsyncTask(){
-            @Override
-            protected Object doInBackground(Object[] params) {
-                try {
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new URL(controlUrl).openStream()));
-                    StringBuilder stringBuilder = new StringBuilder();
-                    String line = bufferedReader.readLine();
-                    stringBuilder.append(line);
-                    line = line.replace(" ", "");
-                    controlString = line;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Object o) {
-                super.onPostExecute(o);
-                updateSwitchStatus(controlString);
-            }
-        }.execute();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_control_on_off, container, false);
 
-        aList = new ArrayList<HashMap<String,Object>>();
-        for(int i=0;i<8;i++){
+        controlList = new ArrayList<>();
+        for(int i=0;i< switchNames.length;i++){
             HashMap<String, Object> hm = new HashMap<String,Object>();
-            hm.put("txt", data[i]);
+            hm.put("txt", switchNames[i]);
             hm.put("stat", status[i]);
-            aList.add(hm);
+            controlList.add(hm);
         }
 
-        String[] from = {"txt","stat" };
-        int[] to = { R.id.mControlSwitch };
-        adapter = new SimpleAdapter(getActivity(), aList, R.layout.control_layout_single_row, from, to) {
-        //SimpleAdapter adapter = new SimpleAdapter(getActivity(), aList, R.layout.control_layout_single_row, from, to) {
+        String[] from = {"txt","stat"};
+        int[] to = {R.id.mControlSwitch};
+        adapter = new SimpleAdapter(getActivity(), controlList, R.layout.control_layout_single_row, from, to) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 Switch mSwitch = (Switch) view.findViewById(R.id.mControlSwitch);
-                HashMap<String,Object> hm = (HashMap) aList.get(position);
+                HashMap<String,Object> hm = (HashMap) controlList.get(position);
                 Boolean chk = (Boolean) hm.get("stat");
                 mSwitch.setChecked(chk);
                 return view;
@@ -190,22 +126,86 @@ public class ControlOnOffFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 adapter = (SimpleAdapter) listView.getAdapter();
-                //SimpleAdapter adapter = (SimpleAdapter) listView.getAdapter();
                 HashMap<String, Object> hm = new HashMap<String, Object>();
                 LinearLayout mLayout = (LinearLayout) view;
                 Switch tgl = (Switch) mLayout.getChildAt(0);
                 tgl.setChecked(!tgl.isChecked());
-                hm.put("txt", data[position]);
+                hm.put("txt", switchNames[position]);
                 hm.put("stat", tgl.isChecked());
-                aList.set(position, hm);
+                controlList.set(position, hm);
                 adapter.notifyDataSetChanged();
                 setRemoteSwitch(position, tgl.isChecked());
             }
         });
         listView.setAdapter(adapter);
-
-        System.out.println("view created");
         return view;
+    }
+
+    private void updateSwitchStatus(String string){
+        for(Integer i=0; i<string.length(); i++){
+            if(string.charAt(i) == '0'){
+                status[i] = false;
+            }else{
+                status[i] = true;
+            }
+        }
+        for(int i=0;i< switchNames.length;i++){
+            HashMap<String, Object> hm = controlList.get(i);
+            hm.put("txt", switchNames[i]);
+            hm.put("stat", status[i]);
+        }
+        adapter.notifyDataSetChanged();
+        System.out.println("UpdateString: " + string);
+    }
+
+/*    private void getRemoteSwitchStatus(){
+        final String url = prefix+serverURL+"/"+mPage;
+        new AsyncTask(){
+            @Override
+            protected Object doInBackground(Object[] params) {
+                try {
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new URL(url).openStream()));
+                    StringBuilder stringBuilder = new StringBuilder();
+                    String line = bufferedReader.readLine();
+                    stringBuilder.append(line);
+                    controlString = line.replace(" ", "");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                updateSwitchStatus(controlString);
+            }
+        }.execute();
+    }*/
+
+    private void setRemoteSwitch(Integer position, boolean b){
+        final String controlUrl = prefix+serverURL+"/"+mPage+mStatus+b+mDivider+mControl+position;
+        new AsyncTask(){
+            @Override
+            protected Object doInBackground(Object[] params) {
+                try {
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new URL(controlUrl).openStream()));
+                    StringBuilder stringBuilder = new StringBuilder();
+                    String line = bufferedReader.readLine();
+                    stringBuilder.append(line);
+                    controlString = line.replace(" ", "");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                updateSwitchStatus(controlString);
+            }
+        }.execute();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -219,6 +219,12 @@ public class ControlOnOffFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void processFinish(String output) {
+        updateSwitchStatus(output);
+        //System.out.println("proces finished:" + output);
     }
 
     public interface OnFragmentInteractionListener {
