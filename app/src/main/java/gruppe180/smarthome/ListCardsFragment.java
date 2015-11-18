@@ -1,97 +1,143 @@
 package gruppe180.smarthome;
 
-import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
+import android.view.ContextMenu;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ListCardsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ListCardsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class ListCardsFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ListCardsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ListCardsFragment newInstance(String param1, String param2) {
-        ListCardsFragment fragment = new ListCardsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public ListCardsFragment() {
-        // Required empty public constructor
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+        // Set up our adapter
+        ExpandableListAdapter mAdapter = new MyExpandableListAdapter();
+        setListAdapter(mAdapter);
+        registerForContextMenu(getExpandableListView());
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list_cards, container, false);
+    public TextView lavTextView() {
+        TextView textView = new TextView(this);
+
+        // Layout parameters for the ExpandableListView
+        AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 64);
+
+        textView.setLayoutParams(lp);
+        // Center the text vertically
+        textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
+        // Set the text starting position
+        textView.setPadding(36, 0, 0, 0);
+        return textView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+    private String[] groups = {"People Names", "Dog Names", "Cat Names", "Fish Names"};
+    private String[][] children = {
+            {"Arnold", "Barry", "Chuck", "David"},
+            {"Ace", "Bandit", "Cha-Cha", "Deuce"},
+            {"Fluffy", "Snuggles"},
+            {"Goldy", "Bubbles"}
+    };
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public void setListAdapter(ExpandableListAdapter listAdapter) {
+        this.listAdapter = listAdapter;
     }
 
     /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
+     * A simple adapter which maintains an ArrayList of photo resource Ids.
+     * Each photo is displayed as an image. This adapter supports clearing the
+     * list of photos and adding a new photo.
      */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+    public class MyExpandableListAdapter extends BaseExpandableListAdapter {
+        // Sample data set.  children[i] contains the children (String[]) for groups[i].
+
+        public Object getChild(int groupPosition, int childPosition) {
+            return children[groupPosition][childPosition];
+        }
+
+        public long getChildId(int groupPosition, int childPosition) {
+            return childPosition;
+        }
+
+        public int getChildrenCount(int groupPosition) {
+            return children[groupPosition].length;
+        }
+
+        public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+            TextView textView = lavTextView();
+            textView.setText(getChild(groupPosition, childPosition).toString());
+            return textView;
+        }
+
+        public Object getGroup(int groupPosition) {
+            return groups[groupPosition];
+        }
+
+        public int getGroupCount() {
+            return groups.length;
+        }
+
+        public long getGroupId(int groupPosition) {
+            return groupPosition;
+        }
+
+        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+            TextView textView = lavTextView();
+            textView.setText(getGroup(groupPosition).toString());
+            return textView;
+        }
+
+        public boolean isChildSelectable(int groupPosition, int childPosition) {
+            return true;
+        }
+
+        public boolean hasStableIds() {
+            return true;
+        }
     }
 
+    @Override
+    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+        String tekst = children[groupPosition][childPosition];
+        Toast.makeText(this, "Klik på gruppe " + groupPosition + " nummer " + childPosition + ": " + tekst, Toast.LENGTH_SHORT).show();
+        return true;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        menu.setHeaderTitle("Sample menu");
+        menu.add(0, 0, 0, "hej");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo) item.getMenuInfo();
+
+        String title = ((TextView) info.targetView).getText().toString();
+
+        int type = ExpandableListView.getPackedPositionType(info.packedPosition);
+        if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+            int groupPos = ExpandableListView.getPackedPositionGroup(info.packedPosition);
+            int childPos = ExpandableListView.getPackedPositionChild(info.packedPosition);
+            Toast.makeText(this, title + ": Child " + childPos + " clicked in group " + groupPos, Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+            int groupPos = ExpandableListView.getPackedPositionGroup(info.packedPosition);
+            Toast.makeText(this, title + ": Group " + groupPos + " clicked", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
+        return false;
+    }
 }
