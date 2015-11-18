@@ -47,6 +47,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="gruppe180.smarthome.GraphActivity" />
         </activity>
+        <activity
+            android:name=".ListCardsActivity"
+            android:label="@string/title_activity_list_cards" >
+        </activity>
     </application>
 
 </manifest>

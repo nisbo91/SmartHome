@@ -19,7 +19,9 @@ public class OptionsActivity extends AppCompatActivity{
         Intent intent;
         switch (v.getId()){
             case R.id.listCardsButton:
-                getSupportFragmentManager().beginTransaction().replace(R.id.mOptionsFrameLayout, new ListCardsFragment()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
+                intent = new Intent(this, ListCardsActivity.class);
+                this.startActivity(intent);
+                //getSupportFragmentManager().beginTransaction().replace(R.id.mOptionsFrameLayout, new ListCardsFragment()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
                 break;
             case R.id.controlButton:
                 intent = new Intent(this, ControlActivity.class);
