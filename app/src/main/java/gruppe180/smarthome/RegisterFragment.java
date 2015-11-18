@@ -67,7 +67,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.registerButton:
                 if (userNameEditText.getText().toString().matches(username)){
-
+                    System.out.println("hej");
                 }
                 else{
                     Toast.makeText(getActivity(), "Invalid username \n must contain 5-15 letters and numbers", Toast.LENGTH_LONG).show();
