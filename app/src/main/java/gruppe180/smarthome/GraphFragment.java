@@ -90,15 +90,6 @@ public class GraphFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_graph, container, false);
 
-
-//        RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.graph);
-//        layout.addView(graphView);
-
-        // Inflate the layout for this fragment
-
-        //setContentView(R.layout.fragment_graph);
-       // view.setContentDescription(R.layout.fragment_graph);
-        // generate Dates
         Calendar calendar = Calendar.getInstance();
         Date d1 = calendar.getTime();
         calendar.add(Calendar.DATE, 1);
