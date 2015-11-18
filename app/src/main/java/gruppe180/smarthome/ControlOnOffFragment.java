@@ -123,10 +123,10 @@ public class ControlOnOffFragment extends Fragment implements ExternalDatabaseRe
     }
 
     private void updateSwitchStatus(String string){
-        for(Integer i=0; i<string.length(); i++){
+        for(Integer i = 0; i < string.length(); i++){
             status[i] = string.charAt(i) != '0';
         }
-        for(int i=0;i< switchNames.length;i++){
+        for(Integer i = 0; i < switchNames.length; i++){
             HashMap<String, Object> hm = controlList.get(i);
             hm.put("txt", switchNames[i]);
             hm.put("stat", status[i]);
