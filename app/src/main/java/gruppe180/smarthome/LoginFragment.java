@@ -83,7 +83,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         Intent intent = new Intent();
-        System.out.println("hans");
         switch (v.getId()) {
             case R.id.activateNfcHereTextView:
                 intent.setAction(Settings.ACTION_NFC_SETTINGS);
