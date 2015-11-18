@@ -3,29 +3,103 @@ package gruppe180.smarthome;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link RegisterFragment.OnFragmentInteractionListener} interface
+ *  interface
  * to handle interaction events.
- * Use the {@link RegisterFragment#newInstance} factory method to
+ * Use the  factory method to
  * create an instance of this fragment.
  */
 public class RegisterFragment extends Fragment implements View.OnClickListener {
+    private TextView smartHomeTextField;
+    private EditText userNameEditText;
+    private EditText passwordEditText;
+    private EditText repeatPasswordEditText;
+    private EditText emailEditText;
+    private EditText nfcCardIDEditText;
+    private EditText homeIPAdressEditText;
+    private CheckBox termsCheckBox;
+    private Button registerButton;
+    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    String username = "[a-zA-Z0-9]{5,15}$";
+    String password = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})";
+    String repeatPassword = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})";
+    String nfcCardID = "[a-zA-Z0-9]{8,8}$";
+    String homeIPAddress = "[0-255].[0-255].[0-255].[0-255]";
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+
+        Log.d("LoginFragment", "Fragment onCreate()");
+        View register = inflater.inflate(R.layout.fragment_register, container, false);
+        smartHomeTextField = (TextView) register.findViewById(R.id.smartHomeTextView);
+        userNameEditText = (EditText) register.findViewById(R.id.userNameEditText);
+        passwordEditText = (EditText) register.findViewById(R.id.passwordEdittext);
+        repeatPasswordEditText = (EditText) register.findViewById(R.id.repeatPasswordEditText);
+        emailEditText = (EditText) register.findViewById(R.id.emailEditText);
+        nfcCardIDEditText = (EditText) register.findViewById(R.id.nfcCardIDEditText);
+        homeIPAdressEditText = (EditText) register.findViewById(R.id.homeIPAdressEditText);
+        termsCheckBox = (CheckBox) register.findViewById(R.id.termsCheckBox);
+        registerButton = (Button) register.findViewById(R.id.registerButton);
+        registerButton.setOnClickListener(this);
+
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_register, container, false);
-
     }
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.registerButton:
+                if (userNameEditText.getText().toString().matches(username)){
 
+                }
+                else{
+                    Toast.makeText(getActivity(), "Invalid username \n must contain 5-15 letters and numbers", Toast.LENGTH_LONG).show();
+                }
+                if (passwordEditText.getText().toString().matches(password)){
+
+                }
+                else{
+                    Toast.makeText(getActivity(), "Invalid password \n must content at least one digit \n must contain one lowercase characters \n must contain on uppercase characters", Toast.LENGTH_LONG).show();
+
+                }
+                if (nfcCardIDEditText.getText().toString().matches(nfcCardID)){
+
+                }
+                else{
+                    Toast.makeText(getActivity(), "Invalid NFC Card ID \n must content 8 characters \n only number and letters", Toast.LENGTH_LONG).show();
+                }
+
+                if (passwordEditText.getText().toString()==repeatPasswordEditText.getText().toString()){
+                    if(emailEditText.getText().toString().matches(emailPattern) && emailEditText.length() >0 ){
+
+                        ((StartActivity) getActivity()).newUser("UserLogin", userNameEditText.getText().toString(), passwordEditText.getText().toString(), emailEditText.getText().toString(), nfcCardIDEditText.getText().toString(),homeIPAdressEditText.getText().toString());
+                    }
+                    else{
+                        Toast.makeText(getActivity(), "Invalid email", Toast.LENGTH_LONG).show();
+                    }
+                }
+                else{
+                    Toast.makeText(getActivity(), "Password and repeat password not the same", Toast.LENGTH_LONG).show();
+                }
+                break;
+        }
     }
  /*   // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
