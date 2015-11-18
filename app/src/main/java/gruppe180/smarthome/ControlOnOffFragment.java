@@ -84,7 +84,8 @@ public class ControlOnOffFragment extends Fragment implements ExternalDatabaseRe
 
         controlList = new ArrayList<>();
         for(int i = 0 ; i < switchNames.length; i++){
-            HashMap<String, Object> hm = new HashMap<String,Object>();
+            //HashMap<String, Object> hm = new HashMap<String,Object>();
+            HashMap<String, Object> hm = new HashMap<>();
             hm.put("txt", switchNames[i]);
             hm.put("stat", status[i]);
             controlList.add(hm);
@@ -97,6 +98,7 @@ public class ControlOnOffFragment extends Fragment implements ExternalDatabaseRe
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 Switch mSwitch = (Switch) view.findViewById(R.id.mControlSwitch);
+                @SuppressWarnings("unchecked")
                 HashMap<String,Object> hm = (HashMap) controlList.get(position);
                 Boolean chk = (Boolean) hm.get("stat");
                 mSwitch.setChecked(chk);
@@ -108,7 +110,8 @@ public class ControlOnOffFragment extends Fragment implements ExternalDatabaseRe
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                HashMap<String, Object> hm = new HashMap<String, Object>();
+                //HashMap<String, Object> hm = new HashMap<String, Object>();
+                HashMap<String, Object> hm = new HashMap<>();
                 LinearLayout mLayout = (LinearLayout) view;
                 Switch aSwitch = (Switch) mLayout.getChildAt(0);
                 aSwitch.setChecked(!aSwitch.isChecked());
@@ -125,11 +128,7 @@ public class ControlOnOffFragment extends Fragment implements ExternalDatabaseRe
 
     private void updateSwitchStatus(String string){
         for(Integer i=0; i<string.length(); i++){
-            if(string.charAt(i) == '0'){
-                status[i] = false;
-            }else{
-                status[i] = true;
-            }
+            status[i] = string.charAt(i) != '0';
         }
         for(int i=0;i< switchNames.length;i++){
             HashMap<String, Object> hm = controlList.get(i);
@@ -160,7 +159,7 @@ public class ControlOnOffFragment extends Fragment implements ExternalDatabaseRe
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(Uri uri);
     }
 
 }
