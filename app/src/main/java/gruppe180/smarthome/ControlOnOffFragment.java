@@ -83,7 +83,7 @@ public class ControlOnOffFragment extends Fragment implements ExternalDatabaseRe
         View view = inflater.inflate(R.layout.fragment_control_on_off, container, false);
 
         controlList = new ArrayList<>();
-        for(int i=0;i< switchNames.length;i++){
+        for(int i = 0 ; i < switchNames.length; i++){
             HashMap<String, Object> hm = new HashMap<String,Object>();
             hm.put("txt", switchNames[i]);
             hm.put("stat", status[i]);
@@ -108,16 +108,15 @@ public class ControlOnOffFragment extends Fragment implements ExternalDatabaseRe
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                adapter = (SimpleAdapter) listView.getAdapter();
                 HashMap<String, Object> hm = new HashMap<String, Object>();
                 LinearLayout mLayout = (LinearLayout) view;
-                Switch tgl = (Switch) mLayout.getChildAt(0);
-                tgl.setChecked(!tgl.isChecked());
+                Switch aSwitch = (Switch) mLayout.getChildAt(0);
+                aSwitch.setChecked(!aSwitch.isChecked());
                 hm.put("txt", switchNames[position]);
-                hm.put("stat", tgl.isChecked());
+                hm.put("stat", aSwitch.isChecked());
                 controlList.set(position, hm);
                 adapter.notifyDataSetChanged();
-                externalDatabaseManager.setRemoteSwitch(position, tgl.isChecked());
+                externalDatabaseManager.setRemoteSwitch(position, aSwitch.isChecked());
             }
         });
         listView.setAdapter(adapter);

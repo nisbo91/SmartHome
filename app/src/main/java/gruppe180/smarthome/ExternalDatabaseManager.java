@@ -14,13 +14,13 @@ import java.net.URL;
 public class ExternalDatabaseManager extends AsyncTask{
 
     public ExternalDatabaseResponse delegate = null;
+
     private final String prefix = "http://";            // fast
     private final String mStatus = "st=";
     private final String mDivider = "&";
     private final String mControl = "cn=";
-    final String serverURL = "87.72.39.104";    // fra database ved registrering, ændres senere
+    private final String serverURL = "87.72.39.104";    // fra database ved registrering, ændres senere
     private final String mPage = "control.php?";
-    //private final String controlGetUrl = prefix+serverURL+"/"+mPage;
 
     private String serverResponse;
 
