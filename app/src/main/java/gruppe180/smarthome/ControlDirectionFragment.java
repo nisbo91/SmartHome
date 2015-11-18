@@ -2,6 +2,7 @@ package gruppe180.smarthome;
 
 import android.media.Image;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,6 +13,11 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +32,14 @@ public class ControlDirectionFragment extends Fragment implements View.OnClickLi
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private final String prefix = "http://";            // fast
+    private final String serverURL = "87.72.39.104";    // fra database ved registrering, ændres fra final senere
+    private final String mPage = "camera.php?";
+    private final String mStatus = "st=";
+    private final String mDivider = "&";
+    private final String mControl = "cn=";
+    private String controlString;
 
     private ImageButton cUp, cRight, cDown, cLeft, cTag;
 
@@ -110,26 +124,66 @@ public class ControlDirectionFragment extends Fragment implements View.OnClickLi
         scaleAnimation.setInterpolator(new DecelerateInterpolator());
         imageButton.startAnimation(scaleAnimation);
     }
+    private void updateControl(String string){
+        System.out.println(string);
+    }
+
+    private void setControlDirectionValue(Integer action){
+        final String controlUrl = prefix+serverURL+"/"+mPage+mControl+action;
+        System.out.println(controlUrl);
+        new AsyncTask(){
+            @Override
+            protected Object doInBackground(Object[] params) {
+                try {
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new URL(controlUrl).openStream()));
+                    StringBuilder stringBuilder = new StringBuilder();
+                    String line = bufferedReader.readLine();
+                    while (line != null){
+                        stringBuilder.append(line+"\n");
+                        line = bufferedReader.readLine();
+                    }
+                    controlString = stringBuilder.toString();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                updateControl(controlString);
+            }
+        }.execute();
+    }
+
+    private void tagStream(){
+        System.out.println("tagged in stream and sent on e-mail");
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.controlUpButton:
+                setControlDirectionValue(1);
                 System.out.println("UP!!");
                 break;
             case R.id.controlDownButton:
+                setControlDirectionValue(2);
                 System.out.println("DOWN!!");
                 break;
             case R.id.controlLeftButton:
+                setControlDirectionValue(3);
                 System.out.println("LEFT!!");
                 break;
             case R.id.controlRightButton:
+                setControlDirectionValue(4);
                 System.out.println("RIGHT!!");
                 break;
             case R.id.controlTagButton:
+                tagStream();
                 System.out.println("TAG!!");
                 animateImageButton(cTag);
-                //((ControlActivity)getActivity()).setNewBottomFragment();
                 break;
         }
     }

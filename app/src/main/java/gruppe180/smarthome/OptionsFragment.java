@@ -63,10 +63,12 @@ public class OptionsFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_option, container, false);
+
         view.findViewById(R.id.listCardsButton).setOnClickListener(this);
         view.findViewById(R.id.controlButton).setOnClickListener(this);
         view.findViewById(R.id.environmentalButton).setOnClickListener(this);
         view.findViewById(R.id.logoutButton).setOnClickListener(this);
+
         return view;
     }
 

@@ -15,7 +15,8 @@
         android:id="@+id/topFrame"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/bottomFrame"
-        android:layout_marginTop="28dp"></FrameLayout>
+        android:layout_marginTop="28dp">
+    </FrameLayout>
 
 
     <android.support.v4.view.ViewPager
@@ -24,6 +25,6 @@
         android:id="@+id/bottomFrame"
         android:layout_below="@+id/topFrame"
         android:layout_marginTop="16dp"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

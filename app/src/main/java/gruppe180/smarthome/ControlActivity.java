@@ -7,9 +7,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.jjoe64.graphview.GraphView;
+
 public class ControlActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,9 +20,7 @@ public class ControlActivity extends AppCompatActivity {
         setContentView(R.layout.activity_control);
 
         if (savedInstanceState==null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.topFrame, new StreamFragment(), "top").commit();
-            //getSupportFragmentManager().beginTransaction().add(R.id.bottomFrame, new ControlOnOffFragment(), "bot").commit();
-            //getSupportFragmentManager().beginTransaction().add(R.id.bottomFrame, new ControlDirectionFragment(), "bot").commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.topFrame, new StreamFragment()).commit();
         }
 
         viewPager = (ViewPager) findViewById(R.id.bottomFrame);
@@ -34,12 +35,7 @@ public class ControlActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             Fragment fragment = new ControlOnOffFragment();
-            switch (position){
-                case 1:
-                    fragment =  new ControlOnOffFragment();
-                case 2:
-                    fragment =  new ControlDirectionFragment();
-            }
+            if (position == 1) fragment = new ControlDirectionFragment();
             return fragment;
         }
 

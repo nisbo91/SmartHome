@@ -1,80 +1,99 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     android:background="@drawable/smarthome"
-    tools:context="gruppe180.smarthome.RegisterFragment">
+    tools:context="gruppe180.smarthome.RegisterFragment"
+    >
 
-    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Smart Home"
+        android:id="@+id/smartHomeTextView"
+        android:textColor="@android:color/background_light"
+        android:textSize="@dimen/abc_action_bar_progress_bar_size"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.5"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/userNameEditText"
+        android:layout_below="@+id/smartHomeTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:hint="username" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Smart Home"
-            android:id="@+id/textView"
-            android:textColor="@android:color/background_light"
-            android:textSize="@dimen/abc_action_bar_progress_bar_size"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="0.5"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/passwordEdittext"
+        android:hint="password"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/userNameEditText"
+        android:layout_alignStart="@+id/editText" />
 
-        <EditText
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/editText"
-            android:layout_below="@+id/textView"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="106dp"
-            android:hint="username" />
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/repeatPasswordEditText"
+        android:hint="repeat password"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/passwordEdittext"
+        android:layout_alignStart="@+id/editText2" />
 
-        <EditText
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/editText2"
-            android:hint="password"
-            android:layout_below="@+id/editText"
-            android:layout_alignStart="@+id/editText" />
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:hint="Email"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/repeatPasswordEditText"
+        android:id="@+id/emailEditText"/>
 
-        <EditText
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/editText3"
-            android:hint="repeat password"
-            android:layout_below="@+id/editText2"
-            android:layout_alignStart="@+id/editText2" />
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:inputType="number"
+        android:layout_below="@+id/emailEditText"
+        android:hint="NFC Card ID (swipe)"
+        android:ems="10"
+        android:id="@+id/nfcCardIDEditText"/>
 
-        <EditText
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/editText4"
-            android:hint="home IP-address"
-            android:layout_below="@+id/editText3"
-            android:layout_alignStart="@+id/editText3" />
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/homeIPAdressEditText"
+        android:hint="home IP-address"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/nfcCardIDEditText"
+        android:layout_alignStart="@+id/editText3" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="I have read, understood and accept terms and conditions"
-            android:id="@+id/checkBox"
-            android:layout_below="@+id/editText4"
-            android:layout_alignStart="@+id/editText4"
-            android:hint="accept"
-            android:layout_alignEnd="@+id/editText4" />
+    <CheckBox
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="I have read, understood and accept terms and conditions"
+        android:id="@+id/termsCheckBox"
+        android:layout_below="@+id/homeIPAdressEditText"
+        android:layout_alignStart="@+id/editText4"
+        android:hint="accept"
+        android:layout_alignEnd="@+id/editText4" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Register"
-            android:id="@+id/button"
-            android:layout_below="@+id/checkBox"
-            android:layout_alignStart="@+id/checkBox"
-            android:layout_alignEnd="@+id/checkBox" />
-    </RelativeLayout>
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Register"
+        android:id="@+id/registerButton"
+        android:layout_below="@+id/termsCheckBox"
+        android:layout_alignStart="@+id/checkBox"
+        android:layout_alignEnd="@+id/checkBox" />
 
-</FrameLayout>
+</LinearLayout>
