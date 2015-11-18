@@ -3,14 +3,13 @@ package gruppe180.smarthome;
 /**
  * Created by Peter1972 on 12-11-2015.
  */
-public class InternalDataSingleton {
+public class InternalDataSingleton{
     private static InternalDataSingleton mInstance = null;
-
     // variable declaration
     private String mString;
 
     // variable value settings
-    private InternalDataSingleton(){
+    protected InternalDataSingleton(){
         mString = "Hello";
     }
 

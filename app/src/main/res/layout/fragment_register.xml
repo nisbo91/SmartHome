@@ -60,11 +60,11 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:inputType="number"
         android:layout_below="@+id/emailEditText"
         android:hint="NFC Card ID (swipe)"
         android:ems="10"
-        android:id="@+id/nfcCardIDEditText"/>
+        android:id="@+id/nfcCardIDEditText"
+        android:inputType="text" />
 
     <EditText
         android:layout_width="300dp"
