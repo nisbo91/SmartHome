@@ -25,8 +25,6 @@ public class ControlActivity extends AppCompatActivity {
 
         viewPager = (ViewPager) findViewById(R.id.bottomFrame);
         viewPager.setAdapter(new VPAdapter(getSupportFragmentManager()));
-
-
     }
 
     private class VPAdapter extends FragmentPagerAdapter {
@@ -37,12 +35,7 @@ public class ControlActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             Fragment fragment = new ControlOnOffFragment();
-            switch (position) {
-                case 1:
-                    fragment = new ControlOnOffFragment();
-                case 2:
-                    fragment = new ControlDirectionFragment();
-            }
+            if (position == 1) fragment = new ControlDirectionFragment();
             return fragment;
         }
 
