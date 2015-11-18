@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Switch;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +33,6 @@ public class ControlOnOffFragment extends Fragment implements ExternalDatabaseRe
     private String mParam1;
     private String mParam2;
 
-    // names of the switches on the remote server
     private String[] switchNames = new String[] {"Alpha","Beta","Gamma","Delta","Epsilon","Zeta","Eta","Theta"};
     private boolean[] status = {false, false, false, false, false, false, false, false};
     private ListView listView;
@@ -84,7 +82,6 @@ public class ControlOnOffFragment extends Fragment implements ExternalDatabaseRe
 
         controlList = new ArrayList<>();
         for(int i = 0 ; i < switchNames.length; i++){
-            //HashMap<String, Object> hm = new HashMap<String,Object>();
             HashMap<String, Object> hm = new HashMap<>();
             hm.put("txt", switchNames[i]);
             hm.put("stat", status[i]);
@@ -110,7 +107,6 @@ public class ControlOnOffFragment extends Fragment implements ExternalDatabaseRe
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //HashMap<String, Object> hm = new HashMap<String, Object>();
                 HashMap<String, Object> hm = new HashMap<>();
                 LinearLayout mLayout = (LinearLayout) view;
                 Switch aSwitch = (Switch) mLayout.getChildAt(0);
@@ -137,13 +133,6 @@ public class ControlOnOffFragment extends Fragment implements ExternalDatabaseRe
         }
         adapter.notifyDataSetChanged();
         System.out.println("UpdateString: " + string);
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
