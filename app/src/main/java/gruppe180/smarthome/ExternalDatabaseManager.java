@@ -25,7 +25,9 @@ public class ExternalDatabaseManager extends AsyncTask{
     private String serverResponse;
 
     public void getRemoteServerResponse(final String page){
+        System.out.println("PAGE:"+page);
         final String gUrl = prefix+serverURL+"/"+page;
+        System.out.println("PAGE:"+gUrl);
         new AsyncTask(){
             @Override
             protected Object doInBackground(Object[] params) {
@@ -35,6 +37,7 @@ public class ExternalDatabaseManager extends AsyncTask{
                     String line = bufferedReader.readLine();
                     stringBuilder.append(line);
                     serverResponse = line.replace(" ", "");
+                    System.out.println(serverResponse);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
