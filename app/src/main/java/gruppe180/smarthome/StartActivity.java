@@ -1,20 +1,22 @@
 package gruppe180.smarthome;
 
+import android.app.Application;
 import android.content.Intent;
 import android.app.PendingIntent;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.parse.Parse;
 import com.parse.ParseObject;
 
-
-public class StartActivity extends AppCompatActivity implements ActivityCommunicatorRegister {
+public class StartActivity extends AppCompatActivity {
 
     private NfcAdapter nfcAdapter;
     private byte[] tag;
     private PendingIntent pendingIntent;
     private ParseObject testObject;
+    private InternalDataApplicationClass internalDataApplicationClass;
     //private String test;
 
     @Override
@@ -30,7 +32,6 @@ public class StartActivity extends AppCompatActivity implements ActivityCommunic
         testObject.put("CardID", "Peter");
         testObject.put("IP_Address", "Peter");
         testObject.saveInBackground();*/
-
         //test = InternalDataSingleton.getInstance().getString();
         //grab a hold of the nfc sensor
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -62,12 +63,8 @@ public class StartActivity extends AppCompatActivity implements ActivityCommunic
             nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
         }
     }
-
-    @Override
-    public void passDataToActivity(String parseClass, String username, String password, String email, String nfcCardID, String homeIPAddress) {
-        System.out.println(parseClass + "//" + username + "//" + password + "//" + email + "//" + nfcCardID + "//" + homeIPAddress);
-        InternalDataApplicationClass.setData(parseClass, username, password, email, nfcCardID, homeIPAddress);
-
+    public void newUser(String userLogin, String username,String password,String email,String cardID,String iP_Address){
+        internalDataApplicationClass.addUser(userLogin, username, password, email, cardID, iP_Address);
     }
 
 
