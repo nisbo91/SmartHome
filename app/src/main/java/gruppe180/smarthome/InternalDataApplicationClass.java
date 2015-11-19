@@ -59,5 +59,6 @@ public class InternalDataApplicationClass extends Application {
         newObject.put("CardID", nfcCardID);
         newObject.put("IP_Address", homeIPAddress);
         newObject.saveInBackground();
+        System.out.println("saved data");
     }
 }
