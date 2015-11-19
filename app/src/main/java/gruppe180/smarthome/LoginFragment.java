@@ -91,15 +91,15 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.loginButton:
-                //internalDataApplicationClass = getApplication();
+                /*internalDataApplicationClass = getApplication();
                 try{
                     //internalDataApplicationClass.login(hexArrayNfcTag, passwordedittext.getText().toString());
                 }
                 catch(Exception e){
                     Log.d("login", String.valueOf(e));
-                }
-                //intent = new Intent(getActivity(), OptionsActivity.class);
-                //this.startActivity(intent);
+                }*/
+                intent = new Intent(getActivity(), OptionsActivity.class);
+                this.startActivity(intent);
                 break;
             case R.id.registerButton:
                 android.support.v4.app.FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();

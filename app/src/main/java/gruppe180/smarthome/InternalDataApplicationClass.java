@@ -22,21 +22,17 @@ import java.util.List;
 public class InternalDataApplicationClass extends Application {
 
     private ParseObject newObject;
-    private StartActivity startActivity;
-    ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
-    private List<ParseObject> objects;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        startActivity = new StartActivity();
         //add your initialization code here
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, "GtnNlWWR171VrvWewFC2VK6NlCcN4aukI3G3Q4O9", "NM11Kt9g3I52S1MeKS6PmbjLKSAtKeeUyhPR77Fz");
 
     }
 
-    public void addUser(String dataClass, String username, String password, String email, String cardID, String iP_Address) {
+    public void InternalDataApplicationClass addUser(String dataClass, String username, String password, String email, String cardID, String iP_Address) {
         newObject = new ParseObject(dataClass);
         newObject.put("Username", username);
         newObject.put("Password", password);
@@ -44,6 +40,7 @@ public class InternalDataApplicationClass extends Application {
         newObject.put("CardID", cardID);
         newObject.put("IP_Address", iP_Address);
         newObject.saveInBackground();
+        return null;
     }
 
     public void login(String cardID, String password) {

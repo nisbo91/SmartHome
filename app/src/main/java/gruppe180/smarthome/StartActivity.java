@@ -16,14 +16,13 @@ public class StartActivity extends AppCompatActivity {
     private byte[] tag;
     private PendingIntent pendingIntent;
     private ParseObject testObject;
-    private InternalDataApplicationClass internalDataApplicationClass;
     //private String test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        Parse.enableLocalDatastore(this);
+        /*Parse.enableLocalDatastore(this);
         Parse.initialize(this, "GtnNlWWR171VrvWewFC2VK6NlCcN4aukI3G3Q4O9", "NM11Kt9g3I52S1MeKS6PmbjLKSAtKeeUyhPR77Fz");
         testObject = new ParseObject("UserLogin");
         testObject.put("Username", "Peter");
@@ -31,7 +30,8 @@ public class StartActivity extends AppCompatActivity {
         testObject.put("Email", "Peter");
         testObject.put("CardID", "Peter");
         testObject.put("IP_Address", "Peter");
-        testObject.saveInBackground();
+        testObject.saveInBackground();*/
+
         //test = InternalDataSingleton.getInstance().getString();
         //grab a hold of the nfc sensor
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -63,8 +63,9 @@ public class StartActivity extends AppCompatActivity {
             nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
         }
     }
-    public void newUser(String userLogin, String username,String password,String email,String cardID,String iP_Address){
-        internalDataApplicationClass.addUser(userLogin, username, password, email, cardID, iP_Address);
+    public void newUser(String userLogin, String username, String password, String email, String cardID, String iP_Address){
+        InternalDataApplicationClass internalDataApplicationClass = ((InternalDataApplicationClass) getApplication())
+        .addUser(userLogin, username, password, email, cardID, iP_Address);
     }
 
 
