@@ -26,7 +26,7 @@ import android.widget.Toast;
 public class RegisterFragment extends Fragment implements View.OnClickListener,FragmentCommunicatorRegister {
 
     public Context context;
-    private ActivityCommunicatorRegister activityCommunicator;
+    private ActivityCommunicatorRegister activityCommunicatorRegister;
     private TextView smartHomeTextField2;
     private EditText userNameEditText;
     private EditText passwordEditText2;
@@ -47,7 +47,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener,F
     public void onAttach(Activity activity){
         super.onAttach(activity);
         context = getActivity();
-        activityCommunicator =(ActivityCommunicatorRegister)context;
+        activityCommunicatorRegister =(ActivityCommunicatorRegister)context;
     }
 
     @Override
@@ -84,7 +84,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener,F
                                 if (nfcCardIDEditText.getText().toString().matches(nfcCardID)){
                                     if(homeIPAdressEditText.getText().toString().matches(homeIPAddress)){
                                         if(termsCheckBox.isChecked()){
-                                            activityCommunicator.passDataToActivity("UserLogin", userNameEditText.getText().toString(), passwordEditText2.getText().toString(), emailEditText.getText().toString(), nfcCardIDEditText.getText().toString(), homeIPAdressEditText.getText().toString());
+                                            activityCommunicatorRegister.passDataToActivity("UserLogin", userNameEditText.getText().toString(), passwordEditText2.getText().toString(), emailEditText.getText().toString(), nfcCardIDEditText.getText().toString(), homeIPAdressEditText.getText().toString());
                                             Toast.makeText(getActivity(), "data transmitted", Toast.LENGTH_LONG).show();
                                         }
                                         else{
