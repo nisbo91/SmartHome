@@ -15,6 +15,8 @@ import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -77,8 +79,8 @@ public class GraphFragment extends Fragment implements ExternalDatabaseResponse 
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-       // externalDatabaseManager.delegate=this;
-        // externalDatabaseManager.getRemoteServerResponse("sensor.php?action=0&range=50");
+        externalDatabaseManager.delegate=this;
+        externalDatabaseManager.getRemoteServerResponse("sensor.php?action=0&range=50");
     }
 
     private int[] data = new int[]{2,3,5,7,4,1,9,8,8,8,8,8,9,8,8,8};
@@ -146,8 +148,40 @@ private Date xmin, xmax;
     @Override
     public void processFinish(String output) {
 
+        String str=output;
+        ArrayList  inputList= new ArrayList(Arrays.asList(str.split(",|\\$")));
+
+
+
+        for (int i=1; i<inputList.size(); i+=4){
+
+            System.out.println("Time: "+ inputList.get(i));
+        }
+        for (int i=2; i<inputList.size(); i+=4){
+
+            System.out.println("Temperature:  "+ inputList.get(i));
+
+        }
+
+        for (int i=3; i<inputList.size(); i+=4){
+
+            System.out.println("Humidity:  "+ inputList.get(i));
+        }
+        for (int i=4; i<inputList.size(); i+=4){
+
+            System.out.println("Pressure:  "+ inputList.get(i));
+        }
+
+
+
+        for(int i=0;i<inputList.size();i++)
+        {
+            //System.out.println(" -->" + inputList.get(i));
+        }
+
         System.out.println("pf:" + output);
     }
+
 
     /**
      * This interface must be implemented by activities that contain this
