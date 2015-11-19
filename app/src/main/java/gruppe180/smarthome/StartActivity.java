@@ -23,7 +23,7 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        Parse.enableLocalDatastore(this);
+        /*Parse.enableLocalDatastore(this);
         Parse.initialize(this, "GtnNlWWR171VrvWewFC2VK6NlCcN4aukI3G3Q4O9", "NM11Kt9g3I52S1MeKS6PmbjLKSAtKeeUyhPR77Fz");
         testObject = new ParseObject("UserLogin");
         testObject.put("Username", "Peter");
@@ -31,7 +31,7 @@ public class StartActivity extends AppCompatActivity {
         testObject.put("Email", "Peter");
         testObject.put("CardID", "Peter");
         testObject.put("IP_Address", "Peter");
-        testObject.saveInBackground();
+        testObject.saveInBackground();*/
         //test = InternalDataSingleton.getInstance().getString();
         //grab a hold of the nfc sensor
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
