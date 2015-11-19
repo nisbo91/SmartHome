@@ -1,9 +1,8 @@
 package gruppe180.smarthome;
 
 import android.app.Activity;
-import android.net.Uri;
+import android.content.Context;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,9 +23,10 @@ import android.widget.Toast;
  * Use the  factory method to
  * create an instance of this fragment.
  */
-public class RegisterFragment extends Fragment implements View.OnClickListener {
+public class RegisterFragment extends Fragment implements View.OnClickListener,FragmentCommunicatorRegister {
 
-
+    public Context context;
+    private ActivityCommunicatorRegister activityCommunicator;
     private TextView smartHomeTextField2;
     private EditText userNameEditText;
     private EditText passwordEditText2;
@@ -43,7 +43,12 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     String nfcCardID = "[a-zA-Z0-9]{8,8}$";
     String homeIPAddress = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 
-
+    @Override
+    public void onAttach(Activity activity){
+        super.onAttach(activity);
+        context = getActivity();
+        activityCommunicator =(ActivityCommunicatorRegister)context;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -79,7 +84,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                                 if (nfcCardIDEditText.getText().toString().matches(nfcCardID)){
                                     if(homeIPAdressEditText.getText().toString().matches(homeIPAddress)){
                                         if(termsCheckBox.isChecked()){
-                                            getActivity(newUser("UserLogin", userNameEditText.getText().toString(), passwordEditText2.getText().toString(), emailEditText.getText().toString(), nfcCardIDEditText.getText().toString(), homeIPAdressEditText.getText().toString()));
+                                            activityCommunicator.passDataToActivity("UserLogin", userNameEditText.getText().toString(), passwordEditText2.getText().toString(), emailEditText.getText().toString(), nfcCardIDEditText.getText().toString(), homeIPAdressEditText.getText().toString());
                                             Toast.makeText(getActivity(), "data transmitted", Toast.LENGTH_LONG).show();
                                         }
                                         else{
@@ -113,6 +118,13 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 break;
         }
     }
+
+    @Override
+    public void passDataToFragment(String parseClass, String username, String password, String email, String nfcCardID, String homeIPAddress) {
+
+    }
+
+
 
 
 

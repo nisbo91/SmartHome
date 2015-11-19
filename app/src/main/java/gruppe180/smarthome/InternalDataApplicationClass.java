@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class InternalDataApplicationClass extends Application {
 
-    private ParseObject newObject;
+
 
     @Override
     public void onCreate() {
@@ -29,18 +29,6 @@ public class InternalDataApplicationClass extends Application {
         //add your initialization code here
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, "GtnNlWWR171VrvWewFC2VK6NlCcN4aukI3G3Q4O9", "NM11Kt9g3I52S1MeKS6PmbjLKSAtKeeUyhPR77Fz");
-
-    }
-
-    public void InternalDataApplicationClass addUser(String dataClass, String username, String password, String email, String cardID, String iP_Address) {
-        newObject = new ParseObject(dataClass);
-        newObject.put("Username", username);
-        newObject.put("Password", password);
-        newObject.put("Email", email);
-        newObject.put("CardID", cardID);
-        newObject.put("IP_Address", iP_Address);
-        newObject.saveInBackground();
-        return null;
     }
 
     public void login(String cardID, String password) {
@@ -51,12 +39,25 @@ public class InternalDataApplicationClass extends Application {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
-                    Intent intent = new Intent(startActivity,OptionsActivity.class);
-                    startActivity(intent);
+                    //Intent intent = new Intent(startActivity,OptionsActivity.class);
+                    //startActivity(intent);
                 } else {
                     Log.d("login Error: ", String.valueOf(e));
                 }
             }
         });
+    }
+
+    public static void getData() {
+    }
+
+    public static void setData(String parseClass, String username, String password, String email, String nfcCardID, String homeIPAddress) {
+        ParseObject newObject = new ParseObject(parseClass);
+        newObject.put("Username", username);
+        newObject.put("Password", password);
+        newObject.put("Email", email);
+        newObject.put("CardID", nfcCardID);
+        newObject.put("IP_Address", homeIPAddress);
+        newObject.saveInBackground();
     }
 }
