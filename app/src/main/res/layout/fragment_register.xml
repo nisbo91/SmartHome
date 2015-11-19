@@ -26,7 +26,8 @@
         android:layout_below="@+id/smartHomeTextView2"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:hint="username" />
+        android:hint="username"
+        android:drawableRight="@android:drawable/presence_offline"/>
 
     <EditText
         android:layout_width="300dp"
@@ -36,7 +37,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_below="@+id/userNameEditText"
         android:layout_alignStart="@+id/editText"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:drawableRight="@android:drawable/presence_offline"/>
 
     <EditText
         android:layout_width="300dp"
@@ -46,7 +48,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_below="@+id/passwordEdittext"
         android:layout_alignStart="@+id/editText2"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:drawableRight="@android:drawable/presence_offline"/>
 
     <EditText
         android:layout_width="300dp"
@@ -55,7 +58,8 @@
         android:hint="Email"
         android:layout_gravity="center_horizontal"
         android:layout_below="@+id/repeatPasswordEditText"
-        android:id="@+id/emailEditText"/>
+        android:id="@+id/emailEditText"
+        android:drawableRight="@android:drawable/presence_offline"/>
 
     <EditText
         android:layout_width="300dp"
@@ -65,7 +69,8 @@
         android:hint="NFC Card ID (swipe)"
         android:ems="10"
         android:id="@+id/nfcCardIDEditText"
-        android:inputType="text" />
+        android:inputType="text"
+        android:drawableRight="@android:drawable/presence_offline"/>
 
     <EditText
         android:layout_width="300dp"
@@ -74,7 +79,8 @@
         android:hint="home IP-address"
         android:layout_gravity="center_horizontal"
         android:layout_below="@+id/nfcCardIDEditText"
-        android:layout_alignStart="@+id/editText3" />
+        android:layout_alignStart="@+id/editText3"
+        android:drawableRight="@android:drawable/presence_offline"/>
 
     <CheckBox
         android:layout_width="300dp"
@@ -85,7 +91,7 @@
         android:layout_below="@+id/homeIPAdressEditText"
         android:layout_alignStart="@+id/editText4"
         android:hint="accept"
-        android:layout_alignEnd="@+id/editText4" />
+        android:layout_alignEnd="@+id/editText4"/>
 
     <Button
         android:layout_width="300dp"
