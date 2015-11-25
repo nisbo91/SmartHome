@@ -16,41 +16,55 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class ListCardsActivity extends ExpandableListActivity {
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //TEST DATA
+
+        InternalDataSingleton.getInstance().setUserdata("id1","a1","b1","c1","d1");
+        InternalDataSingleton.getInstance().setUserdata("id2", "a2", "b2", "c2", "d2");
+        InternalDataSingleton.getInstance().setUserdata("id3","a1","b1","c1","d1");
+        InternalDataSingleton.getInstance().setUserdata("id4","a2","b2","c2","d2");
+        InternalDataSingleton.getInstance().setUserdata("id5","a1","b1","c1","d1");
+        InternalDataSingleton.getInstance().setUserdata("id6","a2","b2","c2","d2");
 
         // Set up our adapter
         ExpandableListAdapter mAdapter = new MyExpandableListAdapter();
         setListAdapter(mAdapter);
         registerForContextMenu(getExpandableListView());
+
+
     }
 
     public TextView lavTextView() {
         TextView textView = new TextView(this);
 
         // Layout parameters for the ExpandableListView
-        AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 64);
+        AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 128);
 
         textView.setLayoutParams(lp);
         // Center the text vertically
         textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
         // Set the text starting position
-        textView.setPadding(36, 0, 0, 0);
+        textView.setPadding(100, 0, 0, 0);
         return textView;
     }
 
-    private String[] groups = {"People Names", "Dog Names", "Cat Names", "Fish Names"};
-    private String[][] children = {
-            {"Arnold", "Barry", "Chuck", "David"},
-            {"Ace", "Bandit", "Cha-Cha", "Deuce"},
-            {"Fluffy", "Snuggles"},
-            {"Goldy", "Bubbles"}
-    };
-
     /**
+     * Fetches card data from singleton and ads it to groups [] array.
+     */
+    private String[] groups = InternalDataSingleton.getInstance().getCarddata();
+    /**
+     * Fecthes user data from singleton and ads to children [][] array.
+     */
+    private String[][] children = InternalDataSingleton.getInstance().getUserdata();
+
+     /**
      * A simple adapter which maintains an ArrayList of photo resource Ids.
      * Each photo is displayed as an image. This adapter supports clearing the
      * list of photos and adding a new photo.
