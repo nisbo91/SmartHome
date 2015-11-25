@@ -42,6 +42,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private String nfc;
     private byte[] nfcTag;
     static LoginFragment synligInstans;
+    private String hexArrayNfcTag;
+
     //private void nfcTagHex;
 
     @Override
@@ -83,13 +85,19 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         Intent intent = new Intent();
-        System.out.println("hans");
         switch (v.getId()) {
             case R.id.activateNfcHereTextView:
                 intent.setAction(Settings.ACTION_NFC_SETTINGS);
                 startActivity(intent);
                 break;
             case R.id.loginButton:
+                /*internalDataApplicationClass = getApplication();
+                try{
+                    //internalDataApplicationClass.login(hexArrayNfcTag, passwordedittext.getText().toString());
+                }
+                catch(Exception e){
+                    Log.d("login", String.valueOf(e));
+                }*/
                 intent = new Intent(getActivity(), OptionsActivity.class);
                 this.startActivity(intent);
                 break;
@@ -100,6 +108,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 break;
         }
     }
+
+
 
     public void updateNFCScreen(boolean b) {
         if (b==true) {
@@ -123,7 +133,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     public void nfcTagSkannet(Intent intent) {
         nfcTag = intent.getByteArrayExtra(NfcAdapter.EXTRA_ID);
-        String hexArrayNfcTag = byteToHex(nfcTag);
+        hexArrayNfcTag = byteToHex(nfcTag);
         System.out.println(hexArrayNfcTag);
         String text = "Card ID: " + hexArrayNfcTag+ "\n\nEnter password for login";
         placenfccardtextview.setText(text);

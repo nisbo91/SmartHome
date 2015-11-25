@@ -20,12 +20,14 @@ public class ExternalDatabaseManager extends AsyncTask{
     private final String mDivider = "&";
     private final String mControl = "cn=";
     private final String serverURL = "87.72.39.104";    // fra database ved registrering, ændres senere
-    private final String mPage = "control.php?";
+    private final String cPage = "control.php?";
 
     private String serverResponse;
 
     public void getRemoteServerResponse(final String page){
+        System.out.println("PAGE:"+page);
         final String gUrl = prefix+serverURL+"/"+page;
+        System.out.println("PAGE:"+gUrl);
         new AsyncTask(){
             @Override
             protected Object doInBackground(Object[] params) {
@@ -35,6 +37,7 @@ public class ExternalDatabaseManager extends AsyncTask{
                     String line = bufferedReader.readLine();
                     stringBuilder.append(line);
                     serverResponse = line.replace(" ", "");
+                    System.out.println(serverResponse);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -50,7 +53,7 @@ public class ExternalDatabaseManager extends AsyncTask{
     }
 
     public void setRemoteSwitch(Integer position, boolean b){
-        final String controlSetUrl = prefix+serverURL+"/"+mPage+mStatus+b+mDivider+mControl+position;
+        final String controlSetUrl = prefix+serverURL+"/"+ cPage +mStatus+b+mDivider+mControl+position;
         new AsyncTask(){
             @Override
             protected Object doInBackground(Object[] params) {

@@ -12,6 +12,7 @@ public class OptionsActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
+        InternalDataSingleton internalDataSingleton = new InternalDataSingleton();
         getSupportFragmentManager().beginTransaction().add(R.id.mOptionsFrameLayout, new OptionsFragment()).commit();
     }
 
