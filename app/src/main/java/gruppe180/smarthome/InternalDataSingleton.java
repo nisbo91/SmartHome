@@ -6,8 +6,8 @@ public class InternalDataSingleton {
     private static InternalDataSingleton mInstance = null;
 
     // variable declaration
-    private ArrayList<String> user_data;
-    private ArrayList<String> card_data;
+    private ArrayList<String> user_data = new ArrayList<>();
+    private ArrayList<String> card_data = new ArrayList<>();
     private String[] cards;
     private String[][] users;
 
@@ -24,9 +24,6 @@ public class InternalDataSingleton {
     // Singleton methods
 
     public void setUserdata(String cardid, String user, String pass, String email, String ip ){
-
-        user_data = new ArrayList<>();
-        card_data = new ArrayList<>();
 
         card_data.add(cardid);
         user_data.add(user);
