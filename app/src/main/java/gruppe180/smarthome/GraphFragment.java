@@ -1,13 +1,13 @@
 package gruppe180.smarthome;
 
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.Viewport;
@@ -15,6 +15,10 @@ import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+
+import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -83,10 +87,9 @@ public class GraphFragment extends Fragment implements ExternalDatabaseResponse 
         externalDatabaseManager.getRemoteServerResponse("sensor.php?action=0&range=50");
     }
 
-    private int[] data = new int[]{2,3,5,7,4,1,9,8,8,8,8,8,9,8,8,8};
-    private int lastX=0;
-    private int dataIndex = 0;
-    LineGraphSeries<DataPoint> series;
+    private int[] data = new int[]{1,1};
+    private LineGraphSeries<DataPoint> series;
+    private LineGraphSeries<DataPoint> newSeries;
     Calendar calendar = Calendar.getInstance();
     GraphView graph;
 
@@ -95,18 +98,31 @@ public class GraphFragment extends Fragment implements ExternalDatabaseResponse 
         View view = inflater.inflate(R.layout.fragment_graph, container, false);
 
         graph = (GraphView) view.findViewById(R.id.graph);
-        series= new LineGraphSeries<>();
-        updateView();
+
+        //series= new LineGraphSeries<>();
+        //series = new LineGraphSeries<DataPoint>(generateData());
+        //graph.addSeries(series);
+
+        //updateView();
 
 
         return view;
     }
-private Date xmin, xmax;
+
+
 
     private void updateView(){
-        addEntry();
 
-        System.out.println(series.toString());
+
+
+        for (int i=0; i<data.length;i++){
+            Date x =calendar.getTime();
+            calendar.add(Calendar.DATE, 1);
+            series.appendData(new DataPoint(x, data[i]), false, 500);
+            // System.out.println(x + ":" + data[i]);
+        }
+        graph.addSeries(series);
+
 
         // set date label formatter
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
@@ -120,17 +136,30 @@ private Date xmin, xmax;
 
 
 
-    // add data to the graph
-    private void addEntry(){
 
-        for (int i=0; i<data.length;i++){
+    int[] nyData = new int[]{2,3,4};
+
+    private void updateEntry(String time, double temp, double hum, double pres){
+
+//        //series = new LineGraphSeries<DataPoint>(new DataPoint[]{ new DataPoint(0,temp)});
+
+        for (int i=0; i<nyData.length;i++){
             Date x =calendar.getTime();
             calendar.add(Calendar.DATE, 1);
-            series.appendData(new DataPoint(x, data[i]), true, data.length);
-            System.out.println(x + ":" + data[i]);
+            newSeries.appendData(new DataPoint(x, nyData[i]), false, 500);
+            // System.out.println(x + ":" + data[i]);
         }
-        graph.addSeries(series);
+
+        graph.addSeries(newSeries);
+
+/*
+        System.out.println("TIME  : "+time);
+        System.out.println("TEMPERATUE : "+temp);
+        System.out.println("HUMIDITY : "+hum);
+        System.out.println("PRESSURE : "+pres);
+*/
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -139,47 +168,83 @@ private Date xmin, xmax;
         }
     }
 
+
+
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
+
+
     @Override
     public void processFinish(String output) {
 
-        String str=output;
-        ArrayList  inputList= new ArrayList(Arrays.asList(str.split(",|\\$")));
+
+        LineGraphSeries nyseries= new LineGraphSeries<>();
+
+        try {
+            String str = output;
+            int count= 0;
+
+            DateFormat df = new SimpleDateFormat("yyyy-MM-ddHH:mm:ss");
+            for (String line : str.split("\\$")){
+
+                line=line.trim(); // dataformatet er 2015-10-30 10:47:06,12.7,67.3,1.008
+                if (line.length()==0 || line.startsWith("  "))continue;
+                System.out.println("LIINE : "+line);
+
+
+               String[] fields = line.split(",");
+
+                Date time =  df.parse(fields[0]);
+                double temperature = Double.parseDouble(fields[1]);
+                double humidity = Double.parseDouble(fields[2]);
+                double pressure = Double.parseDouble(fields[3]);
+
+                /*
+                System.out.println("TIME  : "+time);
+                System.out.println("TEMPERATUE : "+temperature);
+                System.out.println("HUMIDITY : "+humidity);
+                System.out.println("PRESSURE : "+pressure);
+                */
+                System.out.println("TIME  : "+fields[0]);
+                System.out.println("TEMP : "+ temperature);
+                System.out.println("TIME FORMAT : "+time);
+
+                count++;
+                System.out.println(count);
+                nyseries.appendData(new DataPoint(time,temperature), false,count);
+            }
+            //graph.removeSeries(nyseries);
+            graph.addSeries(nyseries);
+            graph.setBackgroundColor(0x83BFAF);
+            // graph.setBackgroundColor(Color.DKGRAY); // make the background dark grey
+            graph.setTitle("Temperature");
+            nyseries.setColor(Color.RED);
+            nyseries.setDrawDataPoints(true);
+            nyseries.setThickness(8);
+            nyseries.setDrawBackground(true); // make the area under the line in a different color
+            //graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.BLACK);
+
+
+           // graph.getGridLabelRenderer().setVerticalLabelsColor(Color.BLACK);
+
+            //graph.getSecondScale().addSeries();
+            //series.setBackgroundColor(Color.RED);
 
 
 
-        for (int i=1; i<inputList.size(); i+=4){
 
-            System.out.println("Time: "+ inputList.get(i));
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            // SÆT et textview som fortæller fejlen eller andet. ...
+            System.out.print("FEJL: "+ ex.toString());
         }
-        for (int i=2; i<inputList.size(); i+=4){
-
-            System.out.println("Temperature:  "+ inputList.get(i));
-
-        }
-
-        for (int i=3; i<inputList.size(); i+=4){
-
-            System.out.println("Humidity:  "+ inputList.get(i));
-        }
-        for (int i=4; i<inputList.size(); i+=4){
-
-            System.out.println("Pressure:  "+ inputList.get(i));
-        }
 
 
-
-        for(int i=0;i<inputList.size();i++)
-        {
-            //System.out.println(" -->" + inputList.get(i));
-        }
-
-        System.out.println("pf:" + output);
     }
 
 
