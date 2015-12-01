@@ -63,8 +63,8 @@ public class StartActivity extends AppCompatActivity {
             nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
         }
     }
-   public void newUser(String userLogin, String username,String password,String email,String cardID,String iP_Address){
-       internalDataApplicationClass.addUser(userLogin, username, password, email, cardID, iP_Address);
+    public void newUser(String userLogin, String username,String password,String email,String cardID,String iP_Address){
+        internalDataApplicationClass.addUser(userLogin, username, password, email, cardID, iP_Address);
     }
 
 

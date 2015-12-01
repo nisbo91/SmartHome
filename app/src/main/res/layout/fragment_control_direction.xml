@@ -7,7 +7,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_gravity="top"
+        android:gravity="top">
 
         <ImageButton
             android:layout_width="80dp"
