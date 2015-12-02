@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
@@ -99,65 +100,8 @@ public class GraphFragment extends Fragment implements ExternalDatabaseResponse 
 
         graph = (GraphView) view.findViewById(R.id.graph);
 
-        //series= new LineGraphSeries<>();
-        //series = new LineGraphSeries<DataPoint>(generateData());
-        //graph.addSeries(series);
-
-        //updateView();
-
 
         return view;
-    }
-
-
-
-    private void updateView(){
-
-
-
-        for (int i=0; i<data.length;i++){
-            Date x =calendar.getTime();
-            calendar.add(Calendar.DATE, 1);
-            series.appendData(new DataPoint(x, data[i]), false, 500);
-            // System.out.println(x + ":" + data[i]);
-        }
-        graph.addSeries(series);
-
-
-        // set date label formatter
-        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
-        graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
-
-        // set manual x bounds to have nice steps
-        //graph.getViewport().setMinX(d1.getTime());
-        //graph.getViewport().setMaxX(d3.getTime());
-        // graph.getViewport().setXAxisBoundsManual(true);
-    }
-
-
-
-
-    int[] nyData = new int[]{2,3,4};
-
-    private void updateEntry(String time, double temp, double hum, double pres){
-
-//        //series = new LineGraphSeries<DataPoint>(new DataPoint[]{ new DataPoint(0,temp)});
-
-        for (int i=0; i<nyData.length;i++){
-            Date x =calendar.getTime();
-            calendar.add(Calendar.DATE, 1);
-            newSeries.appendData(new DataPoint(x, nyData[i]), false, 500);
-            // System.out.println(x + ":" + data[i]);
-        }
-
-        graph.addSeries(newSeries);
-
-/*
-        System.out.println("TIME  : "+time);
-        System.out.println("TEMPERATUE : "+temp);
-        System.out.println("HUMIDITY : "+hum);
-        System.out.println("PRESSURE : "+pres);
-*/
     }
 
 
@@ -185,47 +129,51 @@ public class GraphFragment extends Fragment implements ExternalDatabaseResponse 
         LineGraphSeries nyseries= new LineGraphSeries<>();
 
         try {
-            String str = output;
+            String str = output;  // get the data from the database in a string
             int count= 0;
 
-            DateFormat df = new SimpleDateFormat("yyyy-MM-ddHH:mm:ss");
+            DateFormat df = new SimpleDateFormat("yyyy-MM-ddHH:mm:ss");  // sets the custom format for the date
             for (String line : str.split("\\$")){
 
                 line=line.trim(); // dataformatet er 2015-10-30 10:47:06,12.7,67.3,1.008
-                if (line.length()==0 || line.startsWith("  "))continue;
-                System.out.println("LIINE : "+line);
+                if (line.length()==0 || line.startsWith("  "))continue;  // if there is
+               // System.out.println("LIINE : "+line);
 
 
                String[] fields = line.split(",");
 
-                Date time =  df.parse(fields[0]);
+                Date time =  df.parse(fields[0]); // makes the string ("time") into a date format
                 double temperature = Double.parseDouble(fields[1]);
                 double humidity = Double.parseDouble(fields[2]);
                 double pressure = Double.parseDouble(fields[3]);
-
                 /*
-                System.out.println("TIME  : "+time);
-                System.out.println("TEMPERATUE : "+temperature);
-                System.out.println("HUMIDITY : "+humidity);
-                System.out.println("PRESSURE : "+pressure);
-                */
                 System.out.println("TIME  : "+fields[0]);
                 System.out.println("TEMP : "+ temperature);
-                System.out.println("TIME FORMAT : "+time);
-
+                System.out.println("TIME FORMAT : "+time.getHours());
+                */
                 count++;
-                System.out.println(count);
-                nyseries.appendData(new DataPoint(time,temperature), false,count);
+                nyseries.appendData(new DataPoint(time.getHours(),temperature), false,count); // add datapoints to the graph.
             }
-            //graph.removeSeries(nyseries);
             graph.addSeries(nyseries);
-            graph.setBackgroundColor(0x83BFAF);
+
+            graph.setBackgroundColor(0x83BFAF); // somehow makes the background colour of the graph "transparent"
             // graph.setBackgroundColor(Color.DKGRAY); // make the background dark grey
-            graph.setTitle("Temperature");
+            graph.setTitle("Graph for temperature");
             nyseries.setColor(Color.RED);
-            nyseries.setDrawDataPoints(true);
-            nyseries.setThickness(8);
+            nyseries.setDrawDataPoints(true); // make bullet points on the graph
+            nyseries.setThickness(8);   // set th thickness of the line
             nyseries.setDrawBackground(true); // make the area under the line in a different color
+            graph.getGridLabelRenderer().setHorizontalAxisTitle("Time");  // label on the y axis
+            //graph.getGridLabelRenderer().setVerticalAxisTitle("Degree");
+
+            graph.getViewport().setXAxisBoundsManual(true);  // enable the manipulation of the x axis
+            graph.getViewport().setMinX(nyseries.getLowestValueX()); // sets the lowest x value in the graph plot x axis
+            graph.getViewport().setMaxX(nyseries.getHighestValueX()); // sets the highest x value in the graph plot x axis
+
+
+           // graph.getLegendRenderer().setVisible(true);
+
+
             //graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.BLACK);
 
 

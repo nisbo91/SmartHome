@@ -6,12 +6,10 @@
 
 
     <com.jjoe64.graphview.GraphView
-        android:orientation="vertical"
+
         android:layout_width="match_parent"
         android:layout_height="200dip"
         android:id="@+id/graph"
-        android:title="Graf oversigt"
-        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         />
 
