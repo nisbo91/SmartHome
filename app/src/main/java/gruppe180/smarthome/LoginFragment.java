@@ -50,7 +50,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         synligInstans = this;
         //TESTKODE TIL SINGLETON OG LISTCARDACTIVITY
-        InternalDataSingleton.getInstance().setUserdata("a","b","c","d","e");
+        InternalDataSingleton.getInstance().setUserdata("a565B00y6","Jack Russel","password","jack@mail.com","192.168.0.110");
 
         Log.d("LoginFragment", "Fragment onCreate()");
         View login = inflater.inflate(R.layout.fragment_login, container, false);
