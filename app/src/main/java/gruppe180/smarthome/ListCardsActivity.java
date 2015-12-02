@@ -1,6 +1,7 @@
 package gruppe180.smarthome;
 
 import android.app.ExpandableListActivity;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -16,34 +17,28 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 public class ListCardsActivity extends ExpandableListActivity {
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //TEST DATA
-
-        InternalDataSingleton.getInstance().setUserdata("id1","a1","b1","c1","d1");
-        InternalDataSingleton.getInstance().setUserdata("id2", "a2", "b2", "c2", "d2");
-        InternalDataSingleton.getInstance().setUserdata("id3","a1","b1","c1","d1");
-        InternalDataSingleton.getInstance().setUserdata("id4","a2","b2","c2","d2");
-        InternalDataSingleton.getInstance().setUserdata("id5","a1","b1","c1","d1");
-        InternalDataSingleton.getInstance().setUserdata("id6","a2","b2","c2","d2");
-
-        // Set up our adapter
+        /**
+         * Set up our adapter
+         */
         ExpandableListAdapter mAdapter = new MyExpandableListAdapter();
         setListAdapter(mAdapter);
         registerForContextMenu(getExpandableListView());
 
 
-    }
 
+    }
+    /**
+     * Textview seutp
+     */
     public TextView lavTextView() {
         TextView textView = new TextView(this);
-
+        textView.setTextColor(Color.WHITE);
+        textView.setBackgroundResource(R.drawable.elv);
         // Layout parameters for the ExpandableListView
         AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 128);
 
@@ -54,14 +49,15 @@ public class ListCardsActivity extends ExpandableListActivity {
         textView.setPadding(100, 0, 0, 0);
         return textView;
     }
-
     /**
-     * Fetches card data from singleton and ads it to groups [] array.
+     * Retrieves card data from singleton and ads it to groups [] array.
      */
+
     private String[] groups = InternalDataSingleton.getInstance().getCarddata();
     /**
-     * Fecthes user data from singleton and ads to children [][] array.
+     * Retrieves user data from singleton and ads to children [][] array.
      */
+
     private String[][] children = InternalDataSingleton.getInstance().getUserdata();
 
      /**
@@ -117,37 +113,5 @@ public class ListCardsActivity extends ExpandableListActivity {
         }
     }
 
-    @Override
-    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-        String tekst = children[groupPosition][childPosition];
-        Toast.makeText(this, "Klik på gruppe " + groupPosition + " nummer " + childPosition + ": " + tekst, Toast.LENGTH_SHORT).show();
-        return true;
-    }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        menu.setHeaderTitle("Sample menu");
-        menu.add(0, 0, 0, "hej");
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo) item.getMenuInfo();
-
-        String title = ((TextView) info.targetView).getText().toString();
-
-        int type = ExpandableListView.getPackedPositionType(info.packedPosition);
-        if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-            int groupPos = ExpandableListView.getPackedPositionGroup(info.packedPosition);
-            int childPos = ExpandableListView.getPackedPositionChild(info.packedPosition);
-            Toast.makeText(this, title + ": Child " + childPos + " clicked in group " + groupPos, Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-            int groupPos = ExpandableListView.getPackedPositionGroup(info.packedPosition);
-            Toast.makeText(this, title + ": Group " + groupPos + " clicked", Toast.LENGTH_SHORT).show();
-            return true;
-        }
-
-        return false;
-    }
 }

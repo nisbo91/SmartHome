@@ -49,6 +49,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         synligInstans = this;
+        //TESTKODE TIL SINGLETON OG LISTCARDACTIVITY
+        InternalDataSingleton.getInstance().setUserdata("a","b","c","d","e");
 
         Log.d("LoginFragment", "Fragment onCreate()");
         View login = inflater.inflate(R.layout.fragment_login, container, false);
