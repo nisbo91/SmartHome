@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
-public class StartActivity extends AppCompatActivity implements ActivityCommunicatorRegister {
+public class StartActivity extends AppCompatActivity {
 
     private NfcAdapter nfcAdapter;
     //private byte[] tag;
@@ -63,10 +63,8 @@ public class StartActivity extends AppCompatActivity implements ActivityCommunic
             nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
         }
     }
-
-    @Override
-    public void passDataToActivity(String parseClass, String username, String password, String email, String nfcCardID, String homeIPAddress) {
-        InternalDataApplicationClass.setData(parseClass,username,password,email,nfcCardID,homeIPAddress);
+    public void newUser(String userLogin, String username,String password,String email,String cardID,String iP_Address){
+        internalDataApplicationClass.addUser(userLogin, username, password, email, cardID, iP_Address);
     }
 
 
