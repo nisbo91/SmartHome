@@ -13,10 +13,10 @@ import com.parse.ParseObject;
 public class StartActivity extends AppCompatActivity implements ActivityCommunicatorRegister {
 
     private NfcAdapter nfcAdapter;
-    private byte[] tag;
+    //private byte[] tag;
     private PendingIntent pendingIntent;
-    private ParseObject testObject;
-    private InternalDataApplicationClass internalDataApplicationClass;
+    //private ParseObject testObject;
+    //private InternalDataApplicationClass internalDataApplicationClass;
     //private String test;
 
     @Override
