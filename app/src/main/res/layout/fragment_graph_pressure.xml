@@ -1,27 +1,26 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="gruppe180.smarthome.GraphFragment">
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context="gruppe180.smarthome.GraphPressureFragment">
+
+
 
 
     <com.jjoe64.graphview.GraphView
         android:layout_width="match_parent"
         android:layout_height="200dip"
-        android:id="@+id/graphTemp"
+        android:id="@+id/graphHum"
         android:layout_alignParentStart="true"
         />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Swipe left for humidity"
+        android:text="Swipe right for humidity"
         android:layout_alignParentBottom="true"
-        android:id="@+id/textViewTemp"
+        android:id="@+id/textViewPres"
         android:layout_marginBottom="5dp"
         android:layout_gravity="center" />
 
 
 </FrameLayout>
-
-

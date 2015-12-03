@@ -8,11 +8,13 @@
     tools:context="gruppe180.smarthome.GraphActivity">
 
 
-    <FrameLayout
+    <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/graphFrame"></FrameLayout>
+        android:id="@+id/graphFrame"/>
+
+
 
 </RelativeLayout>

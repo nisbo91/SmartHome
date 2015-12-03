@@ -1,47 +1,35 @@
 package gruppe180.smarthome;
 
+import android.app.Activity;
+import android.support.v4.app.Fragment;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.LegendRenderer;
-import com.jjoe64.graphview.Viewport;
-import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-
-import java.io.InputStream;
-import java.net.ConnectException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
 
-/**
- * Created by Zana.
- */
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link GraphFragment.OnFragmentInteractionListener} interface
+ * {@link GraphPressureFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link GraphFragment#newInstance} factory method to
+ * Use the {@link GraphPressureFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GraphFragment extends Fragment implements ExternalDatabaseResponse {
+/**
+ * Created by Zana.
+ */
+public class GraphPressureFragment extends Fragment implements ExternalDatabaseResponse{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -51,8 +39,8 @@ public class GraphFragment extends Fragment implements ExternalDatabaseResponse 
     private String mParam1;
     private String mParam2;
 
-
     ExternalDatabaseManager externalDatabaseManager=new ExternalDatabaseManager();
+    GraphView graphHum;
 
     private OnFragmentInteractionListener mListener;
 
@@ -62,11 +50,11 @@ public class GraphFragment extends Fragment implements ExternalDatabaseResponse 
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment GraphFragment.
+     * @return A new instance of fragment GraphPressureFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static GraphFragment newInstance(String param1, String param2) {
-        GraphFragment fragment = new GraphFragment();
+    public static GraphPressureFragment newInstance(String param1, String param2) {
+        GraphPressureFragment fragment = new GraphPressureFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -74,10 +62,9 @@ public class GraphFragment extends Fragment implements ExternalDatabaseResponse 
         return fragment;
     }
 
-    public GraphFragment() {
+    public GraphPressureFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -91,59 +78,38 @@ public class GraphFragment extends Fragment implements ExternalDatabaseResponse 
         externalDatabaseManager.getRemoteServerResponse("sensor.php?action=0&range=50");
     }
 
-    GraphView graph;
-    TextView txt;
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-             View view = inflater.inflate(R.layout.fragment_graph, container, false);
-             graph = (GraphView) view.findViewById(R.id.graphTemp);
-             txt = (TextView) view.findViewById(R.id.textViewTemp);
+        View viewPres = inflater.inflate(R.layout.fragment_graph_pressure, container, false);
+        graphHum = (GraphView) viewPres.findViewById(R.id.graphHum);
 
-
-        return view;
+        // Inflate the layout for this fragment
+        return viewPres;
     }
-
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-
 
     @Override
     public void processFinish(String output) {
 
 
-        LineGraphSeries seriesTemp= new LineGraphSeries<>();
+        LineGraphSeries seriesHum = new LineGraphSeries<>();
 
         try {
             String str = output;  // get the data from the database in a string
-            int count= 0;
+            int count = 0;
 
             DateFormat df = new SimpleDateFormat("yyyy-MM-ddHH:mm:ss");  // sets the custom format for the date
-            for (String line : str.split("\\$")){
+            for (String line : str.split("\\$")) {
 
-                line=line.trim(); // dataformatet er 2015-10-30 10:47:06,12.7,67.3,1.008
-                if (line.length()==0 || line.startsWith("  "))continue;  // if there is
-               // System.out.println("LIINE : "+line);
+                line = line.trim(); // dataformatet er 2015-10-30 10:47:06,12.7,67.3,1.008
+                if (line.length() == 0 || line.startsWith("  ")) continue;  // if there is
+                // System.out.println("LIINE : "+line);
 
 
-               String[] fields = line.split(",");
+                String[] fields = line.split(",");
 
-                Date time =  df.parse(fields[0]); // makes the string ("time") into a date format
+                Date time = df.parse(fields[0]); // makes the string ("time") into a date format
                 double temperature = Double.parseDouble(fields[1]);
                 double humidity = Double.parseDouble(fields[2]);
                 double pressure = Double.parseDouble(fields[3]);
@@ -153,54 +119,57 @@ public class GraphFragment extends Fragment implements ExternalDatabaseResponse 
                 System.out.println("TIME FORMAT : "+time.getHours());
                 */
                 count++;
-                seriesTemp.appendData(new DataPoint(time.getHours(), temperature), false, count); // add datapoints to the graph.
+                seriesHum.appendData(new DataPoint(time.getHours(), pressure), false, count); // add datapoints to the graph.
             }
-            graph.addSeries(seriesTemp);
+            graphHum.addSeries(seriesHum);
 
-
-            graph.setBackgroundColor(0x83BFAF); // somehow makes the background colour of the graph "transparent"
+            graphHum.setBackgroundColor(0x83BFAF); // somehow makes the background colour of the graph "transparent"
             // graph.setBackgroundColor(Color.DKGRAY); // make the background dark grey
-            graph.setTitle("Graph for temperature");
-            seriesTemp.setColor(Color.RED);
-            seriesTemp.setDrawDataPoints(true); // make bullet points on the graph
-            seriesTemp.setThickness(8);   // set th thickness of the line
-            seriesTemp.setDrawBackground(true); // make the area under the line in a different color
-            graph.getGridLabelRenderer().setHorizontalAxisTitle("Time");  // label on the y axis
+            graphHum.setTitle("Graph for pressure");
+            seriesHum.setColor(Color.RED);
+            seriesHum.setDrawDataPoints(true); // make bullet points on the graph
+            seriesHum.setThickness(8);   // set th thickness of the line
+            seriesHum.setDrawBackground(true); // make the area under the line in a different color
+            graphHum.getGridLabelRenderer().setHorizontalAxisTitle("Time");  // label on the y axis
             //graph.getGridLabelRenderer().setVerticalAxisTitle("Degree");
 
-            graph.getViewport().setXAxisBoundsManual(true);  // enable the manipulation of the x axis
-            graph.getViewport().setMinX(seriesTemp.getLowestValueX()); // sets the lowest x value in the graph plot x axis
-            graph.getViewport().setMaxX(seriesTemp.getHighestValueX()); // sets the highest x value in the graph plot x axis
+            graphHum.getViewport().setXAxisBoundsManual(true);  // enable the manipulation of the x axis
+            graphHum.getViewport().setMinX(seriesHum.getLowestValueX()); // sets the lowest x value in the graph plot x axis
+            graphHum.getViewport().setMaxX(seriesHum.getHighestValueX()); // sets the highest x value in the graph plot x axis
 
 
-           // graph.getLegendRenderer().setVisible(true);
+            // graph.getLegendRenderer().setVisible(true);
 
 
             //graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.BLACK);
 
 
-           // graph.getGridLabelRenderer().setVerticalLabelsColor(Color.BLACK);
+            // graph.getGridLabelRenderer().setVerticalLabelsColor(Color.BLACK);
 
             //graph.getSecondScale().addSeries();
             //series.setBackgroundColor(Color.RED);
 
 
-
-
-
-        }catch (Exception ex){
-
+        } catch (Exception ex) {
             ex.printStackTrace();
-
-            txt.setText("Error. Check network");
-
-            System.out.print("FEJL !!: "+ ex.toString());
+            // SÆT et textview som fortæller fejlen eller andet. ...
+            System.out.print("FEJL: " + ex.toString());
         }
-
-
-
     }
 
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
 
     /**
      * This interface must be implemented by activities that contain this
