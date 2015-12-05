@@ -104,26 +104,18 @@ public class GraphPressureFragment extends Fragment implements ExternalDatabaseR
 
                 line = line.trim(); // dataformatet er 2015-10-30 10:47:06,12.7,67.3,1.008
                 if (line.length() == 0 || line.startsWith("  ")) continue;  // if there is
-                // System.out.println("LIINE : "+line);
-
 
                 String[] fields = line.split(",");
 
                 Date time = df.parse(fields[0]); // makes the string ("time") into a date format
-                double temperature = Double.parseDouble(fields[1]);
-                double humidity = Double.parseDouble(fields[2]);
                 double pressure = Double.parseDouble(fields[3]);
-                /*
-                System.out.println("TIME  : "+fields[0]);
-                System.out.println("TEMP : "+ temperature);
-                System.out.println("TIME FORMAT : "+time.getHours());
-                */
+
                 count++;
                 seriesHum.appendData(new DataPoint(time.getHours(), pressure), false, count); // add datapoints to the graph.
             }
             graphHum.addSeries(seriesHum);
 
-            graphHum.setBackgroundColor(0x83BFAF); // somehow makes the background colour of the graph "transparent"
+            graphHum.setBackgroundColor(Color.TRANSPARENT); //  makes the background colour of the graph "transparent"
             // graph.setBackgroundColor(Color.DKGRAY); // make the background dark grey
             graphHum.setTitle("Graph for pressure");
             seriesHum.setColor(Color.RED);

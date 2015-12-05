@@ -25,7 +25,7 @@ public class GraphActivity extends AppCompatActivity {
         setContentView(R.layout.activity_graph);
 
             if (savedInstanceState==null) {
-              getSupportFragmentManager().beginTransaction().add(R.id.graphFrame, new GraphFragment()).addToBackStack(null).commit();
+              getSupportFragmentManager().beginTransaction().add(R.id.graphFrame, new GraphFragment()).commit();
             //getSupportFragmentManager().beginTransaction().add(R.id.graphFrame, new GraphHumidityFragment()).addToBackStack(null).commit();
             }
 

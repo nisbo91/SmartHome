@@ -101,7 +101,6 @@ public class GraphFragment extends Fragment implements ExternalDatabaseResponse 
              graph = (GraphView) view.findViewById(R.id.graphTemp);
              txt = (TextView) view.findViewById(R.id.textViewTemp);
 
-
         return view;
     }
 
@@ -126,7 +125,6 @@ public class GraphFragment extends Fragment implements ExternalDatabaseResponse 
     @Override
     public void processFinish(String output) {
 
-
         LineGraphSeries seriesTemp= new LineGraphSeries<>();
 
         try {
@@ -145,20 +143,19 @@ public class GraphFragment extends Fragment implements ExternalDatabaseResponse 
 
                 Date time =  df.parse(fields[0]); // makes the string ("time") into a date format
                 double temperature = Double.parseDouble(fields[1]);
-                double humidity = Double.parseDouble(fields[2]);
-                double pressure = Double.parseDouble(fields[3]);
                 /*
                 System.out.println("TIME  : "+fields[0]);
                 System.out.println("TEMP : "+ temperature);
                 System.out.println("TIME FORMAT : "+time.getHours());
                 */
+                //System.out.println(" TIME : "+time.getTime());
                 count++;
                 seriesTemp.appendData(new DataPoint(time.getHours(), temperature), false, count); // add datapoints to the graph.
             }
             graph.addSeries(seriesTemp);
 
 
-            graph.setBackgroundColor(0x83BFAF); // somehow makes the background colour of the graph "transparent"
+            graph.setBackgroundColor(Color.TRANSPARENT); //  makes the background colour of the graph "transparent"
             // graph.setBackgroundColor(Color.DKGRAY); // make the background dark grey
             graph.setTitle("Graph for temperature");
             seriesTemp.setColor(Color.RED);
@@ -173,26 +170,12 @@ public class GraphFragment extends Fragment implements ExternalDatabaseResponse 
             graph.getViewport().setMaxX(seriesTemp.getHighestValueX()); // sets the highest x value in the graph plot x axis
 
 
-           // graph.getLegendRenderer().setVisible(true);
-
-
-            //graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.BLACK);
-
-
-           // graph.getGridLabelRenderer().setVerticalLabelsColor(Color.BLACK);
-
-            //graph.getSecondScale().addSeries();
-            //series.setBackgroundColor(Color.RED);
-
-
-
-
 
         }catch (Exception ex){
 
             ex.printStackTrace();
 
-            txt.setText("Error. Check network");
+            txt.setText("Error. Check network");  // To warn the user
 
             System.out.print("FEJL !!: "+ ex.toString());
         }
