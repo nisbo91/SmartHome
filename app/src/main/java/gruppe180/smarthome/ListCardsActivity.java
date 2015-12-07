@@ -29,7 +29,7 @@ public class ListCardsActivity extends ExpandableListActivity {
     public TextView childtext() {
         TextView textView = new TextView(this);
         textView.setTextColor(Color.WHITE);
-        textView.setBackgroundResource(R.drawable.childback);
+        textView.setBackgroundResource(R.drawable.userdatainfo);
         // Layout parameters for the ExpandableListView
         AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 128);
         textView.setLayoutParams(lp);
@@ -45,7 +45,7 @@ public class ListCardsActivity extends ExpandableListActivity {
     public TextView grouptext() {
         TextView textView = new TextView(this);
         textView.setTextColor(Color.WHITE);
-        textView.setBackgroundResource(R.drawable.groupback);
+        textView.setBackgroundResource(R.drawable.cardidinfo);
         // Layout parameters for the ExpandableListView
         AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 128);
         textView.setLayoutParams(lp);
