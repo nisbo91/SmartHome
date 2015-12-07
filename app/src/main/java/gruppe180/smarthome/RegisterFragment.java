@@ -67,7 +67,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener,F
         registerButton2 = (Button) register.findViewById(R.id.registerButton2);
         registerButton2.setOnClickListener(this);
 
-
         // Inflate the layout for this fragment
         return register;
     }
