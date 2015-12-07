@@ -22,7 +22,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_environment">Environment</string>
-    <string name="title_activity_graph">GraphActivity</string>
+    <string name="title_activity_graph">Environmental Sensor Data</string>
     <string name="title_activity_list_cards">ListCardsActivity</string>
 
 
