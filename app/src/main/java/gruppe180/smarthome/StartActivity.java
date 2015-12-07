@@ -10,13 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
-public class StartActivity extends AppCompatActivity implements ActivityCommunicatorRegister {
+public class StartActivity extends AppCompatActivity implements ActivityCommunicatorRegister{
 
     private NfcAdapter nfcAdapter;
-    private byte[] tag;
+    //private byte[] tag;
     private PendingIntent pendingIntent;
-    private ParseObject testObject;
-    private InternalDataApplicationClass internalDataApplicationClass;
+    //private ParseObject testObject;
+    //private InternalDataApplicationClass internalDataApplicationClass;
     //private String test;
 
     @Override
@@ -64,9 +64,10 @@ public class StartActivity extends AppCompatActivity implements ActivityCommunic
         }
     }
 
+
     @Override
     public void passDataToActivity(String parseClass, String username, String password, String email, String nfcCardID, String homeIPAddress) {
-        InternalDataApplicationClass.setData(parseClass,username,password,email,nfcCardID,homeIPAddress);
+        InternalDataApplicationClass.setData(username, username, password, email, nfcCardID, homeIPAddress);
     }
 
 
