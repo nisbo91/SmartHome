@@ -13,6 +13,7 @@ public class InternalDataSingleton {
      */
     private ArrayList<String> user_data = new ArrayList<>();
     private ArrayList<String> card_data = new ArrayList<>();
+    private ArrayList<String> pass_data = new ArrayList<>();
     private String[] cards;
     private String[][] users;
     /**
@@ -36,6 +37,7 @@ public class InternalDataSingleton {
 
         user_data.add(user);
         user_data.add(pass);
+        pass_data.add(pass);
         user_data.add(email);
         user_data.add(ip);
     }
@@ -58,9 +60,7 @@ public class InternalDataSingleton {
     private void convert_users() {
 
         int size = user_data.size();
-        System.out.println("size = "+size);
         int rows = size/4;
-        System.out.println("rows = "+rows);
         int col = 4;
         users = new String[rows][col];
 
@@ -86,5 +86,18 @@ public class InternalDataSingleton {
         convert_users();
         return users;
     }
+
+    public boolean verify(String card, String password){
+        boolean result =  false;
+        int count = card_data.size();
+
+        for(int x = 0; x < count; x++){
+            if (card == card_data.get(x) && password == pass_data.get(x))
+                    result = true;
+        }
+
+        return result;
+    }
+
 
 }
