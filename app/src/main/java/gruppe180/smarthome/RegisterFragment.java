@@ -2,9 +2,14 @@ package gruppe180.smarthome;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +28,7 @@ import android.widget.Toast;
  * Use the  factory method to
  * create an instance of this fragment.
  */
-public class RegisterFragment extends Fragment implements View.OnClickListener,FragmentCommunicatorRegister {
+public class RegisterFragment extends Fragment implements View.OnClickListener,FragmentCommunicatorRegister{
 
     public Context context;
     private ActivityCommunicatorRegister activityCommunicatorRegister;
@@ -66,6 +71,130 @@ public class RegisterFragment extends Fragment implements View.OnClickListener,F
         termsCheckBox = (CheckBox) register.findViewById(R.id.termsCheckBox);
         registerButton2 = (Button) register.findViewById(R.id.registerButton2);
         registerButton2.setOnClickListener(this);
+
+        userNameEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (userNameEditText.getText().toString().matches(username)) {
+                    userNameEditText.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.presence_online, 0);
+                } else {
+                    userNameEditText.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.presence_offline, 0);
+                }
+            }
+        });
+        passwordEditText2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (passwordEditText2.getText().toString().matches(password)) {
+                    passwordEditText2.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.presence_online, 0);
+                } else {
+                    passwordEditText2.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.presence_offline, 0);
+                }
+            }
+        });
+        repeatPasswordEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (repeatPasswordEditText.getText().toString().matches(repeatPassword)) {
+                    if (repeatPasswordEditText.getText().toString().equals(passwordEditText2.getText().toString())){
+                        repeatPasswordEditText.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.presence_online, 0);
+                    }
+                } else {
+                    repeatPasswordEditText.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.presence_offline, 0);
+                }
+            }
+        });
+        emailEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (emailEditText.getText().toString().matches(emailPattern)) {
+                    emailEditText.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.presence_online, 0);
+                } else {
+                    emailEditText.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.presence_offline, 0);
+                }
+            }
+        });
+        nfcCardIDEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (nfcCardIDEditText.getText().toString().matches(nfcCardID)) {
+                    nfcCardIDEditText.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.presence_online, 0);
+                } else {
+                    nfcCardIDEditText.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.presence_offline, 0);
+                }
+            }
+        });
+        homeIPAdressEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (homeIPAdressEditText.getText().toString().matches(homeIPAddress)) {
+                    homeIPAdressEditText.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.presence_online, 0);
+                } else {
+                    homeIPAdressEditText.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.presence_offline, 0);
+                }
+            }
+        });
+
 
         // Inflate the layout for this fragment
         return register;

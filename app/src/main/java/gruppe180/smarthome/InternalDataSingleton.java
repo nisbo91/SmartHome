@@ -29,11 +29,11 @@ public class InternalDataSingleton {
          return mInstance;
     }
     /**
-     * Insert string cardid into card_data arraylist & string user, pass, email and ip into user_data arraylist.
+     * Insert string cardID into card_data arraylist & string user, pass, email and ip into user_data arraylist.
      */
-    public void setUserdata(String cardid, String user, String pass, String email, String ip ){
+    public void setUserdata(String cardID, String user, String pass, String email, String ip ){
 
-        card_data.add(cardid);
+        card_data.add(cardID);
 
         user_data.add(user);
         user_data.add(pass);
@@ -95,8 +95,6 @@ public class InternalDataSingleton {
 
             if (card.equals(card_data.get(x))){
                 if(password.equals(pass_data.get(x))){
-                    System.out.println("inside if statement");
-
                     result = true;
                 }
             }

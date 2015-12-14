@@ -27,7 +27,7 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:hint="username"
-        android:drawableRight="@android:drawable/presence_offline"/>
+        android:drawableRight="@android:drawable/presence_offline" />
 
     <EditText
         android:layout_width="300dp"
