@@ -2,13 +2,16 @@ package gruppe180.smarthome;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +39,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener,F
     private EditText userNameEditText;
     private EditText passwordEditText2;
     private EditText repeatPasswordEditText;
+    static RegisterFragment synligInstans;
     private EditText emailEditText;
     private EditText nfcCardIDEditText;
     private EditText homeIPAdressEditText;
@@ -57,7 +61,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener,F
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-
+        synligInstans = this;
         Log.d("RegisterFragment", "Fragment onCreate()");
         View register = inflater.inflate(R.layout.fragment_register, container, false);
 
@@ -199,7 +203,11 @@ public class RegisterFragment extends Fragment implements View.OnClickListener,F
         // Inflate the layout for this fragment
         return register;
     }
-
+    @Override
+    public void onDestroyView() {
+        synligInstans = null;
+        super.onDestroyView();
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -249,6 +257,24 @@ public class RegisterFragment extends Fragment implements View.OnClickListener,F
     @Override
     public void passDataToFragment(String parseClass, String username, String password, String email, String nfcCardID, String homeIPAddress) {
 
+    }
+    public void nfcTagSkannet(Intent intent) {
+        byte[] nfcTag = intent.getByteArrayExtra(NfcAdapter.EXTRA_ID);
+        String hexArrayNfcTag = byteToHex(nfcTag);
+        nfcCardIDEditText.setText(hexArrayNfcTag);
+    }
+    public String byteToHex(byte[] src){
+        StringBuilder stringBuilder = new StringBuilder();
+        if(src == null || src.length<=0){
+            return null;
+        }
+        char[] buffer = new char[2];
+        for(int i=0; i<src.length; i++) {
+            buffer[0] = Character.forDigit((src[i]>>>4)&0x0F, 16);
+            buffer[1] = Character.forDigit((src[i]) & 0x0F, 16);
+            stringBuilder.append(buffer);
+        }
+        return stringBuilder.toString();
     }
 
 

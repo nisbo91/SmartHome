@@ -1,16 +1,10 @@
 package gruppe180.smarthome;
 
-import android.app.FragmentTransaction;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
-import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
-import android.nfc.NfcEvent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
@@ -24,10 +18,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
@@ -39,8 +29,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private TextView placenfccardtextview;
     private TextView activatenfchere;
     private NfcAdapter nfcAdapter;
-    private PendingIntent pendingIntent;
-    private String nfc;
     private byte[] nfcTag;
     static LoginFragment synligInstans;
     private String hexArrayNfcTag=null;
@@ -53,8 +41,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         synligInstans = this;
         //TESTKODE TIL SINGLETON OG LISTCARDACTIVITY
-        InternalDataSingleton.getInstance().setUserdata("a565B00y6","Jack Russel","password","jack@mail.com","192.168.0.110");
-        InternalDataSingleton.getInstance().setUserdata("ed907fae","Jack Rushsel","Jim0110myy","jacks@mail.com","192.168.20.110");
 
         Log.d("LoginFragment", "Fragment onCreate()");
         View login = inflater.inflate(R.layout.fragment_login, container, false);
