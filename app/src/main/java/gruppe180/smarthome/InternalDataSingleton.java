@@ -92,12 +92,18 @@ public class InternalDataSingleton {
         int count = card_data.size();
 
         for(int x = 0; x < count; x++){
-            if (card == card_data.get(x) && password == pass_data.get(x))
-                    result = true;
-        }
 
+            if (card.equals(card_data.get(x))){
+                if(password.equals(pass_data.get(x))){
+                    System.out.println("inside if statement");
+
+                    result = true;
+                }
+            }
+            else{
+                result = false;
+            }
+        }
         return result;
     }
-
-
 }

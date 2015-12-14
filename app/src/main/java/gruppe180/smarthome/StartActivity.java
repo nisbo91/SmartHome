@@ -36,7 +36,6 @@ public class StartActivity extends AppCompatActivity implements ActivityCommunic
         //grab a hold of the nfc sensor
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
-
         if (savedInstanceState == null){
             getSupportFragmentManager().beginTransaction().add(R.id.startFragment, new LoginFragment()).commit();
         }
@@ -48,6 +47,7 @@ public class StartActivity extends AppCompatActivity implements ActivityCommunic
         super.onNewIntent(intent);
         //Toast.makeText(this, "hurra nfc! "+intent,Toast.LENGTH_LONG).show();
         LoginFragment.synligInstans.nfcTagSkannet(intent);
+
     }
     @Override
     public void onPause() {
@@ -66,8 +66,10 @@ public class StartActivity extends AppCompatActivity implements ActivityCommunic
 
 
     @Override
-    public void passDataToActivity(String parseClass, String username, String password, String email, String nfcCardID, String homeIPAddress) {
-        InternalDataApplicationClass.setData(username, username, password, email, nfcCardID, homeIPAddress);
+    public void passDataToActivity(String username, String password, String email, String nfcCardID, String homeIPAddress) {
+        //InternalDataApplicationClass.setData(username, username, password, email, nfcCardID, homeIPAddress);
+        InternalDataSingleton.getInstance().setUserdata(nfcCardID,username,password,email,homeIPAddress);
+
     }
 
 

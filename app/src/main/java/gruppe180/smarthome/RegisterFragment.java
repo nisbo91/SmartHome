@@ -83,7 +83,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener,F
                                 if (nfcCardIDEditText.getText().toString().matches(nfcCardID)){
                                     if(homeIPAdressEditText.getText().toString().matches(homeIPAddress)){
                                         if(termsCheckBox.isChecked()){
-                                            activityCommunicatorRegister.passDataToActivity("UserLogin", userNameEditText.getText().toString(), passwordEditText2.getText().toString(), emailEditText.getText().toString(), nfcCardIDEditText.getText().toString(), homeIPAdressEditText.getText().toString());
+                                            activityCommunicatorRegister.passDataToActivity(userNameEditText.getText().toString(), passwordEditText2.getText().toString(), emailEditText.getText().toString(), nfcCardIDEditText.getText().toString(), homeIPAdressEditText.getText().toString());
                                             Toast.makeText(getActivity(), "data transmitted", Toast.LENGTH_LONG).show();
                                         }
                                         else{

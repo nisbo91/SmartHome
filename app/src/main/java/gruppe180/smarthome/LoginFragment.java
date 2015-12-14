@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -42,7 +43,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private String nfc;
     private byte[] nfcTag;
     static LoginFragment synligInstans;
-    private String hexArrayNfcTag;
+    private String hexArrayNfcTag=null;
+    private boolean loginCheck= false;
+
 
     //private void nfcTagHex;
 
@@ -51,6 +54,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         synligInstans = this;
         //TESTKODE TIL SINGLETON OG LISTCARDACTIVITY
         InternalDataSingleton.getInstance().setUserdata("a565B00y6","Jack Russel","password","jack@mail.com","192.168.0.110");
+        InternalDataSingleton.getInstance().setUserdata("ed907fae","Jack Rushsel","Jim0110myy","jacks@mail.com","192.168.20.110");
 
         Log.d("LoginFragment", "Fragment onCreate()");
         View login = inflater.inflate(R.layout.fragment_login, container, false);
@@ -93,6 +97,18 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.loginButton:
+                System.out.println(passwordedittext.getText().toString());
+                System.out.println(hexArrayNfcTag);
+                loginCheck = InternalDataSingleton.getInstance().verify(hexArrayNfcTag,passwordedittext.getText().toString());
+                System.out.println(loginCheck);
+                if(loginCheck==true){
+                    Log.d("login","login");
+                    intent = new Intent(getActivity(), OptionsActivity.class);
+                    this.startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getActivity(), "Login don't exist", Toast.LENGTH_LONG).show();
+                }
                 /*internalDataApplicationClass = getApplication();
                 try{
                     //internalDataApplicationClass.login(hexArrayNfcTag, passwordedittext.getText().toString());
@@ -100,8 +116,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 catch(Exception e){
                     Log.d("login", String.valueOf(e));
                 }*/
-                intent = new Intent(getActivity(), OptionsActivity.class);
-                this.startActivity(intent);
                 break;
             case R.id.registerButton:
                 android.support.v4.app.FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
