@@ -1,6 +1,5 @@
 package gruppe180.smarthome;
 
-import android.app.Application;
 import android.content.Intent;
 import android.app.PendingIntent;
 import android.content.SharedPreferences;
@@ -9,18 +8,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.parse.Parse;
-import com.parse.ParseObject;
-
 public class StartActivity extends AppCompatActivity implements ActivityCommunicatorRegister{
 
     private NfcAdapter nfcAdapter;
-    //private byte[] tag;
     private PendingIntent pendingIntent;
     private SharedPreferences preferences;
-    //private ParseObject testObject;
-    //private InternalDataApplicationClass internalDataApplicationClass;
-    //private String test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -29,15 +21,10 @@ public class StartActivity extends AppCompatActivity implements ActivityCommunic
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         String username = preferences.getString("user", null);
-        System.out.println(username);
         String password = preferences.getString("pass", null);
-        System.out.println(password);
         String email = preferences.getString("email", null);
-        System.out.println(email);
         String card = preferences.getString("card", null);
-        System.out.println(card);
         String ip = preferences.getString("IP", null);
-        System.out.println(ip);
 
 
         InternalDataSingleton.getInstance().setUserdata(card,username,password,email,ip);
@@ -53,7 +40,6 @@ public class StartActivity extends AppCompatActivity implements ActivityCommunic
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        //Toast.makeText(this, "hurra nfc! "+intent,Toast.LENGTH_LONG).show();
         if(!((LoginFragment.synligInstans) ==null)){
             LoginFragment.synligInstans.nfcTagSkannet(intent);
         }
@@ -85,23 +71,5 @@ public class StartActivity extends AppCompatActivity implements ActivityCommunic
         preferences.edit().putString("email",email).apply();
         preferences.edit().putString("card",nfcCardID).apply();
         preferences.edit().putString("IP",homeIPAddress).apply();
-        String han = preferences.getString("user", null);
-        System.out.println("saved" + han);
     }
-
-
-
-
-    /*
-    private void getTagInfo(Intent intent) {
-        tag = intent.getByteArrayExtra(NfcAdapter.EXTRA_ID);
-        Bundle bundle = new Bundle();
-        bundle.putByteArray("NFC", tag);
-        LoginFragment loginFragment = new LoginFragment();
-        loginFragment.setArguments(bundle);
-
-        Toast.makeText(this,tag.toString(),Toast.LENGTH_LONG).show();
-        Log.d("NFC", tag.toString());
-    }*/
-
 }

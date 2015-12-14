@@ -40,7 +40,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         synligInstans = this;
-        //TESTKODE TIL SINGLETON OG LISTCARDACTIVITY
 
         Log.d("LoginFragment", "Fragment onCreate()");
         View login = inflater.inflate(R.layout.fragment_login, container, false);
@@ -58,13 +57,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         registerbutton.setOnClickListener(this);
 
         if (nfcAdapter.getDefaultAdapter(getActivity()).isEnabled()) {
-            //Toast.makeText(getActivity(),"NFC available",Toast.LENGTH_LONG).show();
             updateNFCScreen(true);
         } else {
-            //Toast.makeText(getActivity(),"NFC not available",Toast.LENGTH_LONG).show();
             updateNFCScreen(false);
         }
-        System.out.println("nfc:"+nfcAdapter.getDefaultAdapter(getActivity()).isEnabled()+" adapter " +nfcAdapter);
         return login;
     }
 
@@ -83,10 +79,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.loginButton:
-                System.out.println(passwordedittext.getText().toString());
-                System.out.println(hexArrayNfcTag);
                 loginCheck = InternalDataSingleton.getInstance().verify(hexArrayNfcTag,passwordedittext.getText().toString());
-                System.out.println(loginCheck);
                 if(loginCheck==true){
                     Log.d("login","login");
                     intent = new Intent(getActivity(), OptionsActivity.class);
@@ -106,7 +99,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             case R.id.registerButton:
                 android.support.v4.app.FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.startFragment, new RegisterFragment()).addToBackStack(null).commit();
-                System.out.println("resiter");
                 break;
         }
     }
