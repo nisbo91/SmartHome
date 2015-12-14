@@ -202,7 +202,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener,F
 
     @Override
     public void onClick(View v) {
-        System.out.println("resistor button");
         switch (v.getId()) {
             case R.id.registerButton2:
                 if (userNameEditText.getText().toString().matches(username)){
